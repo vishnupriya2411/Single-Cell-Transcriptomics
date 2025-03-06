@@ -1,0 +1,1161 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={scRNA-seq in oncogenomics and immunomics},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{scRNA-seq in oncogenomics and immunomics}
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+\maketitle
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# STEP 1}
+\CommentTok{\# Load necessary packages }
+
+\FunctionTok{library}\NormalTok{(Seurat)   }\CommentTok{\# Procide functions for single cell RNA seq analysis}
+\FunctionTok{library}\NormalTok{(dplyr)   }\CommentTok{\# Used for data manipulation and cleaning  }
+\FunctionTok{library}\NormalTok{(ggplot2)  }\CommentTok{\# For creating high quality visualizations}
+\FunctionTok{library}\NormalTok{(scRNAseq)  }\CommentTok{\# Contains datasets and utilities for scRNA seq}
+\FunctionTok{library}\NormalTok{(harmony) }\CommentTok{\# Collect batch effects in single cell data}
+\FunctionTok{library}\NormalTok{(clusterProfiler) }
+\FunctionTok{library}\NormalTok{(ReactomePA)}
+\FunctionTok{library}\NormalTok{(org.Mm.eg.db)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# STEP 2}
+\CommentTok{\# Load data}
+
+\NormalTok{sce }\OtherTok{\textless{}{-}} \FunctionTok{ZilionisLungData}\NormalTok{(}\StringTok{\textquotesingle{}mouse\textquotesingle{}}\NormalTok{)}
+\FunctionTok{reducedDim}\NormalTok{(sce) }\OtherTok{\textless{}{-}} \ConstantTok{NULL} \CommentTok{\# remove any pre existing dimensionality reduction data to start fresh}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# STEP 3}
+\CommentTok{\# Convert single cell data to seurat object for analysis}
+
+\NormalTok{pbmcs }\OtherTok{\textless{}{-}} \FunctionTok{as.Seurat}\NormalTok{(sce, }\AttributeTok{counts =} \StringTok{"counts"}\NormalTok{, }\AttributeTok{data =} \ConstantTok{NULL}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: Non-unique cell names (colnames) present in the input matrix, making
+## unique
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# STEP 4}
+
+\CommentTok{\# Explore and Visualize the import data}
+\NormalTok{pbmcs}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## An object of class Seurat 
+## 28205 features across 17549 samples within 1 assay 
+## Active assay: originalexp (28205 features, 0 variable features)
+##  2 layers present: counts, data
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{head}\NormalTok{(pbmcs}\SpecialCharTok{@}\NormalTok{meta.data) }\CommentTok{\# view metadata associated with cells}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##           orig.ident nCount_originalexp nFeature_originalexp Library Barcode
+## bc0001 SeuratProject              11915                 2733   h_1_1  bc0001
+## bc0002 SeuratProject              11675                 2221   h_1_1  bc0002
+## bc0003 SeuratProject              12536                 2877   h_1_1  bc0003
+## bc0004 SeuratProject              12499                 2742   h_1_1  bc0004
+## bc0005 SeuratProject               9586                 3030   h_1_1  bc0005
+## bc0006 SeuratProject              10553                 2840   h_1_1  bc0006
+##        Animal Run  Tissue Used Library.prep.batch Total.counts
+## bc0001    h_1   1 healthy TRUE    round1_20151128        11915
+## bc0002    h_1   1 healthy TRUE    round1_20151128        11675
+## bc0003    h_1   1 healthy TRUE    round1_20151128        12536
+## bc0004    h_1   1 healthy TRUE    round1_20151128        12499
+## bc0005    h_1   1 healthy TRUE    round1_20151128         9586
+## bc0006    h_1   1 healthy TRUE    round1_20151128        10553
+##        Percent.counts.from.mitochondrial.genes Most.likely.Immgen.cell.type
+## bc0001                                   0.210                 GN_Arth_SynF
+## bc0002                                   0.240                 GN_Arth_SynF
+## bc0003                                   2.728                  MF_PPAR-_Lu
+## bc0004                                   2.728                        MF_Lu
+## bc0005                                   2.378                        MF_Lu
+## bc0006                                   1.516                        Mo_Lu
+##        Major.cell.type Minor.subset
+## bc0001     Neutrophils           N1
+## bc0002     Neutrophils           N1
+## bc0003         MoMacDC         Mac4
+## bc0004         MoMacDC         Mac4
+## bc0005         MoMacDC         Mac4
+## bc0006         MoMacDC        Mono3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(pbmcs}\SpecialCharTok{$}\NormalTok{Tissue)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## healthy   tumor 
+##    6987   10562
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(pbmcs}\SpecialCharTok{$}\NormalTok{Animal)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  h_1  h_2  t_1  t_2 
+## 3062 3925 6400 4162
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cellCounts }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(}\FunctionTok{table}\NormalTok{(pbmcs}\SpecialCharTok{$}\NormalTok{Tissue))}
+\FunctionTok{ggplot}\NormalTok{(cellCounts, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Var1, }\AttributeTok{y =}\NormalTok{ Freq, }\AttributeTok{fill =}\NormalTok{ Var1)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Tissue Type"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Number of cells"}\NormalTok{, }\AttributeTok{title =} \StringTok{"Cell Distribution by Tissue Type"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{ScRNASeq_files/figure-latex/unnamed-chunk-4-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(pbmcs}\SpecialCharTok{$}\NormalTok{Tissue, pbmcs}\SpecialCharTok{$}\NormalTok{Animal) }\CommentTok{\# cross table to see how many cells come from animal {-} tissue combination}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##          
+##            h_1  h_2  t_1  t_2
+##   healthy 3062 3925    0    0
+##   tumor      0    0 6400 4162
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# STEP 5}
+
+\CommentTok{\# Maintain only samples which are used }
+
+\NormalTok{pbmcs }\OtherTok{=} \FunctionTok{subset}\NormalTok{(pbmcs, Used }\SpecialCharTok{==} \ConstantTok{TRUE}\NormalTok{)}
+\FunctionTok{head}\NormalTok{(pbmcs}\SpecialCharTok{@}\NormalTok{meta.data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##           orig.ident nCount_originalexp nFeature_originalexp Library Barcode
+## bc0001 SeuratProject              11915                 2733   h_1_1  bc0001
+## bc0002 SeuratProject              11675                 2221   h_1_1  bc0002
+## bc0003 SeuratProject              12536                 2877   h_1_1  bc0003
+## bc0004 SeuratProject              12499                 2742   h_1_1  bc0004
+## bc0005 SeuratProject               9586                 3030   h_1_1  bc0005
+## bc0006 SeuratProject              10553                 2840   h_1_1  bc0006
+##        Animal Run  Tissue Used Library.prep.batch Total.counts
+## bc0001    h_1   1 healthy TRUE    round1_20151128        11915
+## bc0002    h_1   1 healthy TRUE    round1_20151128        11675
+## bc0003    h_1   1 healthy TRUE    round1_20151128        12536
+## bc0004    h_1   1 healthy TRUE    round1_20151128        12499
+## bc0005    h_1   1 healthy TRUE    round1_20151128         9586
+## bc0006    h_1   1 healthy TRUE    round1_20151128        10553
+##        Percent.counts.from.mitochondrial.genes Most.likely.Immgen.cell.type
+## bc0001                                   0.210                 GN_Arth_SynF
+## bc0002                                   0.240                 GN_Arth_SynF
+## bc0003                                   2.728                  MF_PPAR-_Lu
+## bc0004                                   2.728                        MF_Lu
+## bc0005                                   2.378                        MF_Lu
+## bc0006                                   1.516                        Mo_Lu
+##        Major.cell.type Minor.subset
+## bc0001     Neutrophils           N1
+## bc0002     Neutrophils           N1
+## bc0003         MoMacDC         Mac4
+## bc0004         MoMacDC         Mac4
+## bc0005         MoMacDC         Mac4
+## bc0006         MoMacDC        Mono3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(pbmcs}\SpecialCharTok{$}\NormalTok{Tissue)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## healthy   tumor 
+##    6738    9201
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(pbmcs}\SpecialCharTok{$}\NormalTok{Animal)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  h_1  h_2  t_1  t_2 
+## 2950 3788 5741 3460
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(pbmcs}\SpecialCharTok{$}\NormalTok{Tissue, pbmcs}\SpecialCharTok{$}\NormalTok{Animal)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##          
+##            h_1  h_2  t_1  t_2
+##   healthy 2950 3788    0    0
+##   tumor      0    0 5741 3460
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# STEP 6}
+
+\CommentTok{\# Quality control for cells}
+
+\FunctionTok{VlnPlot}\NormalTok{(pbmcs, }\AttributeTok{features =} \FunctionTok{c}\NormalTok{(}\StringTok{"nFeature\_originalexp"}\NormalTok{, }\StringTok{"nCount\_originalexp"}\NormalTok{, }\StringTok{"Percent.counts.from.mitochondrial.genes"}\NormalTok{ ))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{ScRNASeq_files/figure-latex/unnamed-chunk-6-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Plot 1 nFeature\_originalexp \textless{}{-} no og unique genes detected per cell (cells with few genes detected indicates poor quality), (higher values can cause donblets)}
+\CommentTok{\# Plot 2 nCount\_originalexp \textless{}{-} no of RNA counts detected per cell ()}
+\CommentTok{\# Plot 3 Percent.counts.from.mitochondral.genes \textless{}{-} percentage of RNA counts from mitochondrial genes (high levels indicates poor quality)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# STEP 7}
+
+\CommentTok{\# Filter cells based pn quality control metrics }
+
+\NormalTok{pbmcs }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(pbmcs, }\AttributeTok{subset =}\NormalTok{ nFeature\_originalexp }\SpecialCharTok{\textgreater{}} \DecValTok{200} \SpecialCharTok{\&}\NormalTok{ nFeature\_originalexp }\SpecialCharTok{\textless{}} \DecValTok{2500} \SpecialCharTok{\&}\NormalTok{ Percent.counts.from.mitochondrial.genes }\SpecialCharTok{\textless{}} \DecValTok{10}\NormalTok{)}
+
+\CommentTok{\# This retains cells with }
+\CommentTok{\# {-} More than 200 and less than 2500 genes}
+\CommentTok{\# {-} less than 10\% of RNA coding from mitochondrial genes}
+\FunctionTok{head}\NormalTok{(pbmcs}\SpecialCharTok{@}\NormalTok{meta.data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##           orig.ident nCount_originalexp nFeature_originalexp Library Barcode
+## bc0002 SeuratProject              11675                 2221   h_1_1  bc0002
+## bc0008 SeuratProject              11259                 2395   h_1_1  bc0008
+## bc0010 SeuratProject               9151                 2288   h_1_1  bc0010
+## bc0012 SeuratProject               8611                 2300   h_1_1  bc0012
+## bc0014 SeuratProject              15811                 2139   h_1_1  bc0014
+## bc0015 SeuratProject              10658                 2219   h_1_1  bc0015
+##        Animal Run  Tissue Used Library.prep.batch Total.counts
+## bc0002    h_1   1 healthy TRUE    round1_20151128        11675
+## bc0008    h_1   1 healthy TRUE    round1_20151128        11259
+## bc0010    h_1   1 healthy TRUE    round1_20151128         9151
+## bc0012    h_1   1 healthy TRUE    round1_20151128         8611
+## bc0014    h_1   1 healthy TRUE    round1_20151128        15811
+## bc0015    h_1   1 healthy TRUE    round1_20151128        10658
+##        Percent.counts.from.mitochondrial.genes Most.likely.Immgen.cell.type
+## bc0002                                   0.240                 GN_Arth_SynF
+## bc0008                                   0.115                 GN_Arth_SynF
+## bc0010                                   2.470                        Mo_Lu
+## bc0012                                   0.151                 GN_Arth_SynF
+## bc0014                                   0.032                 GN_Arth_SynF
+## bc0015                                   0.441                        GN_Bl
+##        Major.cell.type Minor.subset
+## bc0002     Neutrophils           N1
+## bc0008     Neutrophils           N1
+## bc0010         MoMacDC        Mono1
+## bc0012     Neutrophils           N1
+## bc0014     Neutrophils           N1
+## bc0015     Neutrophils           N1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(pbmcs}\SpecialCharTok{$}\NormalTok{Tissue)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## healthy   tumor 
+##    6351    8608
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(pbmcs}\SpecialCharTok{$}\NormalTok{Animal)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  h_1  h_2  t_1  t_2 
+## 2798 3553 5354 3254
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(pbmcs}\SpecialCharTok{$}\NormalTok{Tissue, pbmcs}\SpecialCharTok{$}\NormalTok{Animal)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##          
+##            h_1  h_2  t_1  t_2
+##   healthy 2798 3553    0    0
+##   tumor      0    0 5354 3254
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{length}\NormalTok{(pbmcs}\SpecialCharTok{$}\NormalTok{orig.ident) }\CommentTok{\# display no of cells left in the dataset after qc filtering}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 14959
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Step 8}
+
+\CommentTok{\# Normalizing the data}
+
+\NormalTok{pbmcs }\OtherTok{\textless{}{-}} \FunctionTok{NormalizeData}\NormalTok{(pbmcs, }\AttributeTok{normalization.method =} \StringTok{"LogNormalize"}\NormalTok{) }\CommentTok{\# Log Normalization of counts helps to adjust for differences in sequencing depth}
+\CommentTok{\# pbmcs \textless{}{-} NormalizeData(pbmcs, normalization.method = "CLR", margin = 1) \# Centered log{-}ratio transformation useful for data with compositional bias or when focusing }
+\CommentTok{\# pbmcs \textless{}{-} NormalizeData(pbmcs, normalization.method = "RC") \# }
+\CommentTok{\# pbmcs \textless{}{-} SCTransform(pbmcs, vars.to.regress = c("percent.mt"), verbose = FALSE) \# Variance stabilization transformation}
+
+\CommentTok{\# library(preprocessCore)}
+\CommentTok{\# Normalized\_matrix \textless{}{-} normalize.quantiles(as.matrix(pbmcs@assays$RNA@data))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pbmcs }\OtherTok{\textless{}{-}} \FunctionTok{FindVariableFeatures}\NormalTok{(pbmcs, }\AttributeTok{selection.method =} \StringTok{"vst"}\NormalTok{, }\AttributeTok{nfeatures =} \DecValTok{2000}\NormalTok{) }\CommentTok{\# Identify 2000 genes with highest variance}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# View 20 highly variable genes }
+
+\NormalTok{top22 }\OtherTok{\textless{}{-}} \FunctionTok{head}\NormalTok{(}\FunctionTok{VariableFeatures}\NormalTok{(pbmcs),}\DecValTok{22}\NormalTok{) }\CommentTok{\# Get top 22 variable features for labeling}
+\NormalTok{plot1 }\OtherTok{\textless{}{-}} \FunctionTok{VariableFeaturePlot}\NormalTok{(pbmcs) }\CommentTok{\# Create a plot to visualize the variable features}
+\NormalTok{plot2 }\OtherTok{\textless{}{-}} \FunctionTok{LabelPoints}\NormalTok{(}\AttributeTok{plot =}\NormalTok{ plot1, }\AttributeTok{points =}\NormalTok{ top22, }\AttributeTok{repel =} \ConstantTok{TRUE}\NormalTok{) }\CommentTok{\# Label the top variable genes}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## When using repel, set xnudge and ynudge to 0 for optimal results
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(plot2) }\CommentTok{\# Display the labeled plot}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in scale_x_log10(): log-10 transformation introduced infinite values.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: ggrepel: 1 unlabeled data points (too many overlaps). Consider
+## increasing max.overlaps
+\end{verbatim}
+
+\includegraphics{ScRNASeq_files/figure-latex/unnamed-chunk-10-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Scale the data for downstreeam analysis}
+
+\NormalTok{pbmcs }\OtherTok{\textless{}{-}} \FunctionTok{ScaleData}\NormalTok{(pbmcs, }\AttributeTok{features =} \FunctionTok{rownames}\NormalTok{(pbmcs)) }\CommentTok{\# Scale the data for zero mean and unit variance for all genes}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Centering and scaling data matrix
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Run PCA analysis on the highly variable Features o reduce dimensionality while preserving variance}
+\NormalTok{pbmcs }\OtherTok{\textless{}{-}} \FunctionTok{RunPCA}\NormalTok{(pbmcs, }\AttributeTok{features =} \FunctionTok{VariableFeatures}\NormalTok{(}\AttributeTok{object =}\NormalTok{ pbmcs))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## PC_ 1 
+## Positive:  S100a9, Retnlg, Cxcl2, Lcn2, Mmp8, S100a6, Osm, Thbs1, Wfdc21, Stfa2l1 
+##     Ifitm1, Slfn4, Dck, Gm5483, Retnla, Cd14, Pbx1, Cd33, Ccrl2, Dhrs9 
+##     Fam101b, Svil, Marcksl1, Rtp4, Rsad2, Ier3, Kcnj2, Gad1-ps, Fosb, Max 
+## Negative:  Ctss, Crip1, Ifi30, Cd74, H2-Aa, Ahnak, Prdx1, S100a4, H2-Eb1, Tagln2 
+##     Lgals1, H2-Ab1, Ctsc, Anxa5, Tubb5, Tmem176b, Irf8, Ear2, Ly86, Ear1 
+##     Axl, Chil3, Fn1, Cxcl16, Itgb1, Ctsb, Esyt1, Ccr2, Lpl, Lgals3bp 
+## PC_ 2 
+## Positive:  Lyz2, Lyz1, Lgals3, Psap, Chil3, Ctsb, Ctsd, Cdkn1a, S100a9, Csf1r 
+##     Ear2, Clec4n, Cxcl2, Ear1, Cst3, Cd63, Cd14, S100a6, Cstb, Ifitm3 
+##     Ier3, Fn1, Cybb, Lpl, Mt1, Atp6v0d2, Cd63-ps, Osm, Ccrl2, Anxa5 
+## Negative:  Cd79a, Ly6d, Fcmr, Ccr7, H2-Eb1, H2-Ob, Cd19, Cd74, H2-Aa, Pou2af1 
+##     Fcer2a, Lck, H2-Ab1, Fcrla, S1pr1, Ccl5, Gzma, Thy1, Dusp2, Mzb1 
+##     Il2rb, Blk, Mef2c, Klrd1, Gzmb, Vpreb3, Klre1, Ly6a, Klra7, Klrb1c 
+## PC_ 3 
+## Positive:  Cd74, H2-Aa, H2-Eb1, Cd79a, H2-Ab1, Ly6d, Fcmr, H2-Ob, Cd19, Pou2af1 
+##     Fcer2a, Fcrla, Ly86, Mef2c, Mzb1, Ctss, Blk, Vpreb3, Ifi30, Ccr7 
+##     Cybb, Plac8, Fcrl1, Rnase6, Cnn3, Apoe, A530040E14Rik, Fam43a, Rasgef1b, H2-Eb2 
+## Negative:  Gzma, Ccl5, Klrb1c, Gzmb, Klre1, Klra13-ps, Klra7, Klra4, Ncr1, Klrd1 
+##     Il2rb, Klra9, Serpinb9, Eomes, Cma1, Serpinb9b, Klri2, Lck, Serpinb6b, Fasl 
+##     Lgals1, Klrb1b, Cd7, Ahnak, Atp1b1, Klrg1, Xcl1, Itgb1, Ly6c2, Ly6c1 
+## PC_ 4 
+## Positive:  Clec4n, Ier3, Cd63, Cd63-ps, Bhlhe40, Basp1, Ccl3, Csf1, Cstb, Cdkn1a 
+##     Ccrl2, Ffar2, Id1, Rab15, Mreg, Atp6ap2, P2ry13, P2ry14, Pald1, Egr2 
+##     Car4, Hbegf, Spp1, Il1a, Cd177, Ptgs1, BC049730, Ltf, Cxcl2, Rgs1 
+## Negative:  Lyz1, Lyz2, Ifitm3, Cybb, S100a6, Plac8, Fn1, Ccr2, Ahnak, F13a1 
+##     Retnlg, Ifitm6, Ly6c2, S100a4, Mmp8, Ly6c1, Ace, Clec4a3, Serpinb10, Ccl9 
+##     Lgals3, Klf4, Csf1r, Scarb1, Ear2, Lcn2, Ear1, Wfdc21, I830127L07Rik, Crip1 
+## PC_ 5 
+## Positive:  Chil3, Ear1, Ear2, Lpl, Atp6v0d2, Krt79, Hebp1, Mrc1, Lmna, F7 
+##     Pld3, Plet1, Axl, Ctsk, Gmpr, Car4, Ctsd, Prdx1, Cd79a, Pparg 
+##     Mfsd7c, Spp1, Sgk1, S100a1, Pros1, Pald1, Gstm1, Mcoln3, Ly6d, Clec4n 
+## Negative:  Fscn1, Cacnb3, Ccl22, Cxcl16, Tbc1d4, Tmem176b, Tmem176a, Zmynd15, Ccl17, S100a4 
+##     Ramp3, Tbc1d8, Cst3, Tmem123, Fabp5, Serpinb6b, Crip1, Nr4a3, Mreg, Gm14328 
+##     Flrt3, Anxa3, S100a6, Marcksl1, Ccr7, Serpinb9, Hmgn3, Ifi30, Tubb2b, Basp1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ElbowPlot}\NormalTok{(pbmcs) }\CommentTok{\# Create a elbow plot o visualuze how many principal component s capture significant variations}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{ScRNASeq_files/figure-latex/unnamed-chunk-12-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Run UMAP for dimensionality reduction and visualization}
+
+\NormalTok{pbmcs }\OtherTok{\textless{}{-}} \FunctionTok{RunUMAP}\NormalTok{(pbmcs, }\AttributeTok{dims =} \DecValTok{1}\SpecialCharTok{:}\DecValTok{16}\NormalTok{) }\CommentTok{\# Perform UMAP on first 16 principal components to visualize the ata in two dimensions}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: The default method for RunUMAP has changed from calling Python UMAP via reticulate to the R-native UWOT using the cosine metric
+## To use Python UMAP via reticulate, set umap.method to 'umap-learn' and metric to 'correlation'
+## This message will be shown once per session
+\end{verbatim}
+
+\begin{verbatim}
+## 15:22:08 UMAP embedding parameters a = 0.9922 b = 1.112
+\end{verbatim}
+
+\begin{verbatim}
+## 15:22:08 Read 14959 rows and found 16 numeric columns
+\end{verbatim}
+
+\begin{verbatim}
+## 15:22:08 Using Annoy for neighbor search, n_neighbors = 30
+\end{verbatim}
+
+\begin{verbatim}
+## 15:22:08 Building Annoy index with metric = cosine, n_trees = 50
+\end{verbatim}
+
+\begin{verbatim}
+## 0%   10   20   30   40   50   60   70   80   90   100%
+\end{verbatim}
+
+\begin{verbatim}
+## [----|----|----|----|----|----|----|----|----|----|
+\end{verbatim}
+
+\begin{verbatim}
+## **************************************************|
+## 15:22:08 Writing NN index file to temp file /var/folders/x1/3srb6phj4bq77chbrlk3s37m0000gn/T//RtmppEVa5d/file672652128669
+## 15:22:08 Searching Annoy index using 1 thread, search_k = 3000
+## 15:22:11 Annoy recall = 100%
+## 15:22:12 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
+## 15:22:13 Initializing from normalized Laplacian + noise (using RSpectra)
+## 15:22:13 Commencing optimization for 200 epochs, with 664230 positive edges
+## 15:22:13 Using rng type: pcg
+## 15:22:18 Optimization finished
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Visualize clusters on UMAP space, grouping by animal and tissue}
+
+\FunctionTok{DimPlot}\NormalTok{(pbmcs, }\AttributeTok{group.by =} \StringTok{"Animal"}\NormalTok{, }\AttributeTok{split.by =} \StringTok{"Tissue"}\NormalTok{) }\CommentTok{\# Plot UMAP colored by Animal}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{ScRNASeq_files/figure-latex/unnamed-chunk-14-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{DimPlot}\NormalTok{(pbmcs, }\AttributeTok{group.by =} \StringTok{"Tissue"}\NormalTok{) }\CommentTok{\# PLot UMAP colored by Tissue to see clustering trends}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{ScRNASeq_files/figure-latex/unnamed-chunk-14-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# PLot a specific feature across the UMAP to see it\textquotesingle{}s distribution }
+
+\FunctionTok{FeaturePlot}\NormalTok{(pbmcs, }\AttributeTok{features =} \StringTok{"nFeature\_originalexp"}\NormalTok{) }\CommentTok{\# Visualize the distribution of the no of features detected on UMAP}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{ScRNASeq_files/figure-latex/unnamed-chunk-15-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pbmcs }\OtherTok{\textless{}{-}} \FunctionTok{RunHarmony}\NormalTok{(pbmcs, }\AttributeTok{group.by.vars =} \StringTok{"Animal"}\NormalTok{) }\CommentTok{\# Apply harmony collection based on grouping variance}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Transposing data matrix
+\end{verbatim}
+
+\begin{verbatim}
+## Initializing state using k-means centroids initialization
+\end{verbatim}
+
+\begin{verbatim}
+## Harmony 1/10
+\end{verbatim}
+
+\begin{verbatim}
+## Harmony 2/10
+\end{verbatim}
+
+\begin{verbatim}
+## Harmony converged after 2 iterations
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{DimPlot}\NormalTok{(pbmcs) }\CommentTok{\# Plot UMAP after batch correction}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{ScRNASeq_files/figure-latex/unnamed-chunk-16-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ElbowPlot}\NormalTok{(pbmcs) }\CommentTok{\# Reevaluate no of PCs to use after harmony adjustment}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{ScRNASeq_files/figure-latex/unnamed-chunk-16-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Cluster the cells using harmony {-}correction embeddings}
+
+\NormalTok{pbmcs }\OtherTok{\textless{}{-}} \FunctionTok{FindNeighbors}\NormalTok{(pbmcs, }\AttributeTok{dims =} \DecValTok{1}\SpecialCharTok{:}\DecValTok{16}\NormalTok{) }\CommentTok{\# Find Neignoring cells based on PCA results}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Computing nearest neighbor graph
+\end{verbatim}
+
+\begin{verbatim}
+## Computing SNN
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pbmcs }\OtherTok{\textless{}{-}} \FunctionTok{FindClusters}\NormalTok{(pbmcs, }\AttributeTok{resolution =} \FloatTok{0.4}\NormalTok{) }\CommentTok{\# Cluster cells using louvian algorithm }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
+## 
+## Number of nodes: 14959
+## Number of edges: 532931
+## 
+## Running Louvain algorithm...
+## Maximum modularity in 10 random starts: 0.9194
+## Number of communities: 13
+## Elapsed time: 1 seconds
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pbmcs }\OtherTok{\textless{}{-}} \FunctionTok{RunUMAP}\NormalTok{(pbmcs, }\AttributeTok{dims =} \DecValTok{1}\SpecialCharTok{:}\DecValTok{16}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 15:22:37 UMAP embedding parameters a = 0.9922 b = 1.112
+\end{verbatim}
+
+\begin{verbatim}
+## 15:22:37 Read 14959 rows and found 16 numeric columns
+\end{verbatim}
+
+\begin{verbatim}
+## 15:22:37 Using Annoy for neighbor search, n_neighbors = 30
+\end{verbatim}
+
+\begin{verbatim}
+## 15:22:37 Building Annoy index with metric = cosine, n_trees = 50
+\end{verbatim}
+
+\begin{verbatim}
+## 0%   10   20   30   40   50   60   70   80   90   100%
+\end{verbatim}
+
+\begin{verbatim}
+## [----|----|----|----|----|----|----|----|----|----|
+\end{verbatim}
+
+\begin{verbatim}
+## **************************************************|
+## 15:22:38 Writing NN index file to temp file /var/folders/x1/3srb6phj4bq77chbrlk3s37m0000gn/T//RtmppEVa5d/file67262878dc83
+## 15:22:38 Searching Annoy index using 1 thread, search_k = 3000
+## 15:22:41 Annoy recall = 100%
+## 15:22:41 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
+## 15:22:42 Initializing from normalized Laplacian + noise (using RSpectra)
+## 15:22:42 Commencing optimization for 200 epochs, with 664230 positive edges
+## 15:22:42 Using rng type: pcg
+## 15:22:47 Optimization finished
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{DimPlot}\NormalTok{(pbmcs, }\AttributeTok{reduction =} \StringTok{"umap"}\NormalTok{, }\AttributeTok{label =} \StringTok{"TRUE"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{ScRNASeq_files/figure-latex/unnamed-chunk-17-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Identify marker genes for ach cluster, which help characterize the clusters}
+
+\NormalTok{cluster\_markers }\OtherTok{\textless{}{-}} \FunctionTok{FindAllMarkers}\NormalTok{(pbmcs, }\AttributeTok{only.pos =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{min.pct =} \FloatTok{0.25}\NormalTok{, }\AttributeTok{logfc.threshold =} \FloatTok{0.25}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Calculating cluster 0
+\end{verbatim}
+
+\begin{verbatim}
+## For a (much!) faster implementation of the Wilcoxon Rank Sum Test,
+## (default method for FindMarkers) please install the presto package
+## --------------------------------------------
+## install.packages('devtools')
+## devtools::install_github('immunogenomics/presto')
+## --------------------------------------------
+## After installation of presto, Seurat will automatically use the more 
+## efficient implementation (no further action necessary).
+## This message will be shown once per session
+\end{verbatim}
+
+\begin{verbatim}
+## Calculating cluster 1
+\end{verbatim}
+
+\begin{verbatim}
+## Calculating cluster 2
+\end{verbatim}
+
+\begin{verbatim}
+## Calculating cluster 3
+\end{verbatim}
+
+\begin{verbatim}
+## Calculating cluster 4
+\end{verbatim}
+
+\begin{verbatim}
+## Calculating cluster 5
+\end{verbatim}
+
+\begin{verbatim}
+## Calculating cluster 6
+\end{verbatim}
+
+\begin{verbatim}
+## Calculating cluster 7
+\end{verbatim}
+
+\begin{verbatim}
+## Calculating cluster 8
+\end{verbatim}
+
+\begin{verbatim}
+## Calculating cluster 9
+\end{verbatim}
+
+\begin{verbatim}
+## Calculating cluster 10
+\end{verbatim}
+
+\begin{verbatim}
+## Calculating cluster 11
+\end{verbatim}
+
+\begin{verbatim}
+## Calculating cluster 12
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Extract the top 10 markers for each cluster}
+
+\NormalTok{top\_markers }\OtherTok{\textless{}{-}}\NormalTok{ cluster\_markers }\SpecialCharTok{\%\textgreater{}\%}\FunctionTok{group\_by}\NormalTok{(cluster) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{top\_n}\NormalTok{(}\DecValTok{10}\NormalTok{, avg\_log2FC)}
+
+\FunctionTok{print}\NormalTok{(top\_markers)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 130 x 7
+## # Groups:   cluster [13]
+##    p_val avg_log2FC pct.1 pct.2 p_val_adj cluster gene   
+##    <dbl>      <dbl> <dbl> <dbl>     <dbl> <fct>   <chr>  
+##  1     0       3.28 0.821 0.14          0 0       Slpi   
+##  2     0       2.82 0.812 0.185         0 0       Hdc    
+##  3     0       2.85 0.642 0.134         0 0       Slc16a3
+##  4     0       2.81 0.63  0.148         0 0       Ptgs2  
+##  5     0       2.99 0.462 0.078         0 0       Slc2a3 
+##  6     0       2.77 0.42  0.093         0 0       Cd300lb
+##  7     0       3.32 0.3   0.046         0 0       Slc40a1
+##  8     0       2.76 0.285 0.06          0 0       Gm5150 
+##  9     0       2.88 0.252 0.044         0 0       Padi4  
+## 10     0       3.00 0.251 0.045         0 0       Scnn1a 
+## # i 120 more rows
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Create a heatmap for top cluster markers for visual assessment}
+
+\NormalTok{marker\_genes }\OtherTok{\textless{}{-}}\NormalTok{ top\_markers}\SpecialCharTok{$}\NormalTok{gene }\CommentTok{\# Extract the gene names for heatmap}
+\CommentTok{\# Generate a heatmap to visualize expression patterns }
+\FunctionTok{DoHeatmap}\NormalTok{(pbmcs, }\AttributeTok{features =}\NormalTok{ marker\_genes) }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Cluster Markers HeatMap"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{ScRNASeq_files/figure-latex/unnamed-chunk-19-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Step 19: Rename Clusters for easier interpretation based on known biology}
+\NormalTok{new.cluster.ids }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Neutrophils"}\NormalTok{, }\StringTok{"BCells"}\NormalTok{, }\StringTok{"Neutrophils"}\NormalTok{, }\StringTok{"TCells"}\NormalTok{,}
+                     \StringTok{"Mono\_Macro\_DC"}\NormalTok{, }\StringTok{"Neutrophils"}\NormalTok{, }\StringTok{"Neutrophils"}\NormalTok{, }\StringTok{"NKCells"}\NormalTok{,}
+                     \StringTok{"DC"}\NormalTok{, }\StringTok{"Mono\_Macro\_DC"}\NormalTok{, }\StringTok{"Mono\_Macro\_DC"}\NormalTok{, }\StringTok{"Mono\_Macro\_DC"}\NormalTok{,}
+                     \StringTok{"Basophils"}\NormalTok{) }\CommentTok{\# Assign meaningful names to clusters based on biological knowledge}
+
+\FunctionTok{names}\NormalTok{(new.cluster.ids) }\OtherTok{\textless{}{-}} \FunctionTok{levels}\NormalTok{(pbmcs) }\CommentTok{\# Map new names to the corresponding cluster levels}
+
+\NormalTok{pbmcs }\OtherTok{\textless{}{-}} \FunctionTok{RenameIdents}\NormalTok{(pbmcs, new.cluster.ids) }\CommentTok{\# Rename the clusters in the Seurat object for clarity}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Visualize cluster by major cell type}
+\FunctionTok{DimPlot}\NormalTok{(pbmcs, }\AttributeTok{reduction =} \StringTok{"umap"}\NormalTok{, }\AttributeTok{label =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{group.by =} \StringTok{"Major.cell.type"}\NormalTok{) }\CommentTok{\# Plot umap grouped by major cell types}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{ScRNASeq_files/figure-latex/unnamed-chunk-21-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Step 20: Create a unique identifier for differential expression analysis}
+\CommentTok{\# Concatenate cluster identity and tissue type to create unique identifiers for DE analysis}
+\NormalTok{pbmcs}\SpecialCharTok{$}\NormalTok{DETest }\OtherTok{\textless{}{-}} \FunctionTok{paste}\NormalTok{(}\FunctionTok{Idents}\NormalTok{(pbmcs), pbmcs}\SpecialCharTok{$}\NormalTok{Tissue, }\AttributeTok{sep =} \StringTok{"\_"}\NormalTok{)}
+
+\CommentTok{\# Update identities in the Seurat object to reflect the new identifiers}
+\FunctionTok{Idents}\NormalTok{(pbmcs) }\OtherTok{\textless{}{-}}\NormalTok{ pbmcs}\SpecialCharTok{$}\NormalTok{DETest}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Step 21: Identify differentially expressed genes between specific clusters}
+\CommentTok{\# For example, comparing BCells from healthy vs. tumor samples}
+\NormalTok{de\_genes }\OtherTok{\textless{}{-}} \FunctionTok{FindMarkers}\NormalTok{(pbmcs, }\AttributeTok{ident.2 =} \StringTok{"BCells\_healthy"}\NormalTok{, }\AttributeTok{ident.1 =} \StringTok{"BCells\_tumor"}\NormalTok{,}
+                        \AttributeTok{min.pct =} \FloatTok{0.25}\NormalTok{, }\AttributeTok{logfc.threshold =} \FloatTok{0.25}\NormalTok{)  }\CommentTok{\# Conduct differential expression analysis}
+
+\CommentTok{\# View differentially expressed genes for interpretation and further analysis}
+\FunctionTok{print}\NormalTok{(de\_genes)  }\CommentTok{\# Print the results of the differential expression analysis to examine significant genes}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                       p_val avg_log2FC pct.1 pct.2    p_val_adj
+## Tsc22d3        6.630603e-17 -0.5945665 0.488 0.676 1.870162e-12
+## mt-Nd1         3.559006e-14 -0.3851461 0.732 0.843 1.003818e-09
+## Tmsb4x         5.167861e-13 -0.2715823 0.959 0.989 1.457595e-08
+## H3f3a          5.809218e-13 -0.4218768 0.746 0.868 1.638490e-08
+## Rpl41          1.263716e-11  0.3581179 0.926 0.919 3.564310e-07
+## Zfp36l2        2.217344e-11 -0.6457636 0.418 0.557 6.254018e-07
+## Rps27          3.963240e-11  0.3095320 0.935 0.946 1.117832e-06
+## Rps27rt        8.079255e-11  0.3043379 0.935 0.946 2.278754e-06
+## Tnrc6b         9.054807e-11  0.4127023 0.736 0.680 2.553908e-06
+## Rps28          1.714772e-10  0.3267984 0.889 0.888 4.836515e-06
+## Dusp1          1.901055e-10 -0.9090619 0.147 0.257 5.361926e-06
+## Gm14807        7.550914e-10 -0.4321223 0.431 0.579 2.129735e-05
+## H3f3b          9.237133e-10 -0.3635889 0.628 0.751 2.605333e-05
+## Gm15725        1.115286e-09 -0.5712659 0.255 0.380 3.145665e-05
+## Gm10076        1.568290e-09  0.3599157 0.886 0.871 4.423363e-05
+## Rps29          4.586239e-09  0.2681106 0.953 0.979 1.293549e-04
+## Klf2           8.778333e-09 -0.2991222 0.501 0.644 2.475929e-04
+## Serinc3        3.703349e-08 -0.2500328 0.577 0.706 1.044530e-03
+## Fam65b         4.193621e-08 -0.6043657 0.231 0.337 1.182811e-03
+## Rps24          4.271594e-08  0.3045433 0.927 0.936 1.204803e-03
+## Ptprc          4.275567e-08 -0.4063526 0.333 0.450 1.205924e-03
+## Ywhaz          8.494529e-08 -0.4545622 0.309 0.430 2.395882e-03
+## Ly6d           1.270023e-07 -0.2668370 0.654 0.777 3.582099e-03
+## mt-Nd4         2.082839e-07 -0.2675497 0.737 0.820 5.874646e-03
+## Ms4a1          2.167325e-07 -0.4791275 0.378 0.492 6.112939e-03
+## Cxcr4          2.572843e-07 -0.2966016 0.503 0.628 7.256703e-03
+## Morf4l1        2.757140e-07 -0.6381149 0.252 0.352 7.776513e-03
+## Gm11410        3.078679e-07 -0.3170933 0.688 0.782 8.683415e-03
+## Serp1          3.555183e-07 -0.4185327 0.418 0.526 1.002739e-02
+## mt-Nd2         3.808134e-07 -0.3153724 0.613 0.724 1.074084e-02
+## Gm15039        3.932082e-07  0.3817069 0.531 0.414 1.109044e-02
+## Cd47           4.080999e-07 -0.6011231 0.305 0.413 1.151046e-02
+## Ptgfrn         4.111431e-07  0.3377588 0.762 0.723 1.159629e-02
+## Dazap2         4.441108e-07 -0.3987340 0.282 0.393 1.252615e-02
+## Rps3           8.457895e-07  0.2889345 0.860 0.842 2.385549e-02
+## Rps21          1.022179e-06  0.3418959 0.879 0.876 2.883055e-02
+## Gm12504        1.090557e-06 -0.2958942 0.395 0.509 3.075917e-02
+## H2-K1          1.113486e-06 -0.2928301 0.740 0.812 3.140586e-02
+## Fam107b        1.604671e-06 -0.4375397 0.234 0.331 4.525975e-02
+## Wdr89          2.097564e-06  0.4579672 0.603 0.542 5.916180e-02
+## Rpl22          2.397548e-06  0.5125370 0.619 0.580 6.762284e-02
+## Tmbim6         2.781748e-06 -0.5439111 0.238 0.331 7.845919e-02
+## Gm4750         3.146343e-06 -0.4771385 0.209 0.301 8.874261e-02
+## Gm8464         3.146343e-06 -0.4771385 0.209 0.301 8.874261e-02
+## Gm10275        4.292609e-06  0.3558795 0.713 0.686 1.210730e-01
+## Eif4g2         5.968566e-06 -0.2749644 0.216 0.311 1.683434e-01
+## Jund           6.448804e-06 -0.3197135 0.457 0.563 1.818885e-01
+## Ets1           6.721714e-06 -0.2913428 0.431 0.521 1.895860e-01
+## Rps11-ps1      7.681464e-06  0.4112255 0.446 0.361 2.166557e-01
+## Fcrla          8.002622e-06 -0.3419487 0.292 0.383 2.257139e-01
+## Rps5           9.104551e-06  0.2551372 0.882 0.878 2.567939e-01
+## Rpl37a         9.227806e-06  0.3912455 0.693 0.641 2.602703e-01
+## Rpl39-ps       1.063727e-05  0.4086295 0.730 0.710 3.000242e-01
+## Tmem123        1.120288e-05 -0.3623426 0.224 0.310 3.159772e-01
+## Prkcb          1.162550e-05 -0.3512114 0.218 0.304 3.278971e-01
+## Rpl18          1.245860e-05  0.3378783 0.818 0.820 3.513949e-01
+## Gm12183        1.359305e-05 -0.3210718 0.351 0.454 3.833919e-01
+## Gm5963         1.550390e-05  0.4720426 0.624 0.563 4.372876e-01
+## Cd55           2.311614e-05 -0.3911050 0.257 0.352 6.519906e-01
+## Ddx5           2.492943e-05 -0.2823320 0.526 0.621 7.031346e-01
+## Rpl39          2.593313e-05  0.3924822 0.731 0.713 7.314439e-01
+## Rps20          2.974513e-05  0.3043666 0.835 0.833 8.389613e-01
+## Rpl37rt        3.101253e-05  0.3343035 0.643 0.579 8.747083e-01
+## Stk17b         4.913263e-05 -0.2756477 0.457 0.553 1.000000e+00
+## Rps25          7.104773e-05  0.3886166 0.604 0.559 1.000000e+00
+## Rpl27a         9.279580e-05  0.2594630 0.843 0.842 1.000000e+00
+## Rps26          9.281687e-05  0.3457272 0.764 0.751 1.000000e+00
+## Ankle2         1.053539e-04 -0.3100202 0.352 0.438 1.000000e+00
+## Actr3          1.314558e-04 -0.5099862 0.337 0.416 1.000000e+00
+## Hvcn1          1.877879e-04 -0.3760989 0.238 0.313 1.000000e+00
+## Gm8822         1.901222e-04 -0.5341307 0.313 0.389 1.000000e+00
+## Arf1           1.958400e-04 -0.4436214 0.233 0.301 1.000000e+00
+## Gm10073        2.229325e-04  0.2523913 0.736 0.719 1.000000e+00
+## Cd53           2.303392e-04 -0.4566651 0.357 0.433 1.000000e+00
+## Rps25-ps1      2.393108e-04  0.3615171 0.539 0.505 1.000000e+00
+## Mpv17          2.661282e-04 -0.3303498 0.300 0.378 1.000000e+00
+## Hsp90aa1       3.597124e-04 -0.3594917 0.207 0.277 1.000000e+00
+## mt-Nd5         3.719052e-04 -0.2591512 0.495 0.581 1.000000e+00
+## Hnrnpc         4.045445e-04 -0.2902956 0.198 0.267 1.000000e+00
+## Gm15042        5.623453e-04  0.4509564 0.268 0.201 1.000000e+00
+## Gm15501        5.740833e-04  0.3316841 0.606 0.569 1.000000e+00
+## Rpl9-ps6       6.275004e-04  0.2701461 0.767 0.751 1.000000e+00
+## Rps11          6.774745e-04  0.2662119 0.708 0.703 1.000000e+00
+## Son            6.966058e-04 -0.3565923 0.247 0.318 1.000000e+00
+## Rps12-ps3      7.977307e-04  0.3658601 0.521 0.484 1.000000e+00
+## H2-Q4          8.704800e-04  0.3030229 0.753 0.737 1.000000e+00
+## RP24-352B14.1  9.474372e-04  0.3305066 0.590 0.576 1.000000e+00
+## Bank1          1.203207e-03 -0.4269747 0.233 0.296 1.000000e+00
+## Plekha2        1.206157e-03 -0.3659858 0.198 0.262 1.000000e+00
+## Arf6           1.257892e-03 -0.3421954 0.253 0.320 1.000000e+00
+## Uba52          1.319686e-03  0.3078407 0.579 0.539 1.000000e+00
+## Gm12230        1.437010e-03  0.2908345 0.479 0.431 1.000000e+00
+## Rpl36a         1.649272e-03  0.3241564 0.503 0.454 1.000000e+00
+## Rps15          1.747124e-03  0.2737020 0.791 0.757 1.000000e+00
+## Vim            1.759677e-03 -0.3379409 0.230 0.294 1.000000e+00
+## Hnrnpf         1.780794e-03 -0.2507418 0.346 0.414 1.000000e+00
+## Mcl1           1.809420e-03 -0.3645266 0.306 0.371 1.000000e+00
+## Dkk4           1.890489e-03  0.3600750 0.362 0.293 1.000000e+00
+## Lyn            2.325657e-03 -0.2765532 0.189 0.253 1.000000e+00
+## Nkain3         2.585053e-03  0.4109961 0.570 0.532 1.000000e+00
+## Sell           2.709271e-03 -0.2780492 0.366 0.431 1.000000e+00
+## Calm2          2.745327e-03 -0.3982353 0.207 0.262 1.000000e+00
+## Gm21957        3.179401e-03  0.2749809 0.315 0.248 1.000000e+00
+## Gm11407        3.826811e-03 -0.3380886 0.291 0.349 1.000000e+00
+## Stk38          4.621989e-03 -0.3129310 0.500 0.562 1.000000e+00
+## Ralgps2        5.068664e-03 -0.3204850 0.223 0.273 1.000000e+00
+## Gm14633        5.317036e-03  0.4455544 0.289 0.240 1.000000e+00
+## Rpl31          5.547454e-03  0.2913983 0.661 0.631 1.000000e+00
+## Iqgap1         7.212634e-03 -0.2602922 0.291 0.347 1.000000e+00
+## Gm7609         7.507849e-03  0.5250586 0.366 0.322 1.000000e+00
+## Pax5           7.676770e-03 -0.3208747 0.287 0.341 1.000000e+00
+## Rps26-ps1      7.906048e-03  0.3393627 0.624 0.615 1.000000e+00
+## Rps8           8.392937e-03  0.3193042 0.525 0.492 1.000000e+00
+## Rpl15          1.239854e-02  0.2663390 0.713 0.709 1.000000e+00
+## Rps13-ps1      1.558494e-02  0.2840968 0.458 0.420 1.000000e+00
+## Cytip          1.563388e-02 -0.3437251 0.280 0.324 1.000000e+00
+## Chchd2         1.681065e-02 -0.2524257 0.259 0.307 1.000000e+00
+## Ncl            2.013337e-02  0.5235705 0.285 0.245 1.000000e+00
+## Ddx39          2.231003e-02  0.6006529 0.279 0.250 1.000000e+00
+## Junb           2.246864e-02  0.4440181 0.460 0.424 1.000000e+00
+## Foxo1          2.302589e-02 -0.2673417 0.212 0.256 1.000000e+00
+## Ltb            2.354636e-02  0.3927629 0.428 0.395 1.000000e+00
+## Fcmr           2.746065e-02  0.2520332 0.584 0.552 1.000000e+00
+## Gm2000         2.938664e-02  0.2579336 0.598 0.590 1.000000e+00
+## Eif5a          3.479497e-02  0.5261389 0.282 0.246 1.000000e+00
+## Gm5835         3.584617e-02  0.3249530 0.506 0.492 1.000000e+00
+## Rpsa           3.851957e-02  0.2659168 0.527 0.519 1.000000e+00
+## Rpl18-ps2      4.950342e-02  0.3831435 0.329 0.301 1.000000e+00
+## 9930111J21Rik2 5.169420e-02  0.3008780 0.490 0.458 1.000000e+00
+## Mcmdc2         5.699080e-02  0.3653379 0.266 0.233 1.000000e+00
+## Hsd3b2         6.487630e-02  0.3265975 0.384 0.361 1.000000e+00
+## Rpl36a-ps2     7.232623e-02  0.2801497 0.336 0.304 1.000000e+00
+## Hspb11         7.433801e-02  0.3044255 0.297 0.267 1.000000e+00
+## C8a            8.796465e-02  0.2739446 0.458 0.438 1.000000e+00
+## Adtrp          9.407185e-02  0.3951312 0.352 0.337 1.000000e+00
+## Psap           1.015507e-01  0.5253970 0.333 0.315 1.000000e+00
+## Gm13722        1.045309e-01  0.3256076 0.338 0.317 1.000000e+00
+## Gm14586        1.109346e-01  0.2678737 0.555 0.573 1.000000e+00
+## Acad9          1.110818e-01  0.3906982 0.313 0.293 1.000000e+00
+## Rps12          1.307994e-01  0.2635836 0.276 0.253 1.000000e+00
+## Ifi30          1.844314e-01  0.2630124 0.263 0.239 1.000000e+00
+## Rabac1         1.861193e-01  0.3460981 0.297 0.276 1.000000e+00
+## Gm14173        2.389461e-01  0.2584329 0.252 0.232 1.000000e+00
+## Gm10116        2.953618e-01  0.3007049 0.542 0.542 1.000000e+00
+## Zfp36          3.466554e-01  0.4455624 0.341 0.339 1.000000e+00
+## Rpl36al        3.611502e-01  0.2697434 0.280 0.270 1.000000e+00
+## Rps11-ps3      3.734209e-01  0.3014430 0.273 0.267 1.000000e+00
+## Ftl1           4.152537e-01  0.2869628 0.556 0.567 1.000000e+00
+## Cox4i1         4.646936e-01  0.3516328 0.300 0.297 1.000000e+00
+## Pou2f2         5.387544e-01  0.3180849 0.378 0.385 1.000000e+00
+## Aes            6.877003e-01  0.2580231 0.245 0.260 1.000000e+00
+## Cotl1          8.007103e-01  0.2506068 0.248 0.252 1.000000e+00
+## Arhgef1        8.256687e-01  0.2619521 0.269 0.279 1.000000e+00
+## Gpx1           9.327953e-01  0.2897680 0.270 0.283 1.000000e+00
+## Cnp            9.711390e-01  0.2951863 0.257 0.260 1.000000e+00
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Enrichment Analysis}
+\CommentTok{\# Install required packages}
+\ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{requireNamespace}\NormalTok{(}\StringTok{"BiocManager"}\NormalTok{, }\AttributeTok{quietly =} \ConstantTok{TRUE}\NormalTok{)) }\FunctionTok{install.packages}\NormalTok{(}\StringTok{"BiocManager"}\NormalTok{)}
+\NormalTok{BiocManager}\SpecialCharTok{::}\FunctionTok{install}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"clusterProfiler"}\NormalTok{, }\StringTok{"ReactomePA"}\NormalTok{, }\StringTok{"org.Mm.eg.db"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Bioconductor version 3.19 (BiocManager 1.30.25), R 4.4.1 (2024-06-14)
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package(s) not installed when version(s) same as or greater than current; use
+##   `force = TRUE` to re-install: 'clusterProfiler' 'ReactomePA' 'org.Mm.eg.db'
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Load Libraries}
+\FunctionTok{library}\NormalTok{(clusterProfiler)}
+\FunctionTok{library}\NormalTok{(ReactomePA)}
+\FunctionTok{library}\NormalTok{(org.Mm.eg.db)}
+
+\CommentTok{\# Extract significant genes from de\_genes}
+\NormalTok{significant\_genes }\OtherTok{\textless{}{-}} \FunctionTok{rownames}\NormalTok{(de\_genes[de\_genes}\SpecialCharTok{$}\NormalTok{p\_val\_adj }\SpecialCharTok{\textless{}} \FloatTok{0.05} \SpecialCharTok{\&} \FunctionTok{abs}\NormalTok{(de\_genes}\SpecialCharTok{$}\NormalTok{avg\_log2FC) }\SpecialCharTok{\textgreater{}} \FloatTok{0.25}\NormalTok{, ])}
+
+\CommentTok{\# Perform GO enrichment analysis}
+\NormalTok{enrich\_results }\OtherTok{\textless{}{-}} \FunctionTok{enrichGO}\NormalTok{(}
+  \AttributeTok{gene          =}\NormalTok{ significant\_genes,}
+  \AttributeTok{OrgDb         =}\NormalTok{ org.Mm.eg.db,}
+  \AttributeTok{keyType       =} \StringTok{"SYMBOL"}\NormalTok{,}
+  \AttributeTok{ont           =} \StringTok{"BP"}\NormalTok{,}
+  \AttributeTok{pAdjustMethod =} \StringTok{"BH"}\NormalTok{,}
+  \AttributeTok{pvalueCutoff  =} \FloatTok{0.05}\NormalTok{,}
+  \AttributeTok{qvalueCutoff  =} \FloatTok{0.2}
+\NormalTok{)}
+
+\CommentTok{\# Perform Reactome pathway enrichment analysis}
+\NormalTok{reactome\_results }\OtherTok{\textless{}{-}} \FunctionTok{enrichPathway}\NormalTok{(}
+  \AttributeTok{gene         =}\NormalTok{ significant\_genes,}
+  \AttributeTok{organism     =} \StringTok{"mouse"}\NormalTok{,}
+  \AttributeTok{pvalueCutoff =} \FloatTok{0.05}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## --> No gene can be mapped....
+\end{verbatim}
+
+\begin{verbatim}
+## --> Expected input gene ID: 16500,11702,77980,14712,26446,75586
+\end{verbatim}
+
+\begin{verbatim}
+## --> return NULL...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Visualize enrichment results}
+\FunctionTok{barplot}\NormalTok{(enrich\_results, }\AttributeTok{showCategory =} \DecValTok{20}\NormalTok{, }\AttributeTok{title =} \StringTok{"GO Enrichment Results"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{ScRNASeq_files/figure-latex/unnamed-chunk-24-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# dotplot(reactome\_results, showCategory = 20, title = "Reactome Pathway Results")}
+\end{Highlighting}
+\end{Shaded}
+
+
+\end{document}

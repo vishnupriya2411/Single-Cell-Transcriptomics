@@ -1,0 +1,275 @@
+---
+title: "scRNA-seq in oncogenomics and immunomics"
+output:
+  pdf_document: default
+  html_notebook: default
+---
+
+```{r, message=FALSE}
+# STEP 1
+# Load necessary packages 
+
+library(Seurat)   # Procide functions for single cell RNA seq analysis
+library(dplyr)   # Used for data manipulation and cleaning  
+library(ggplot2)  # For creating high quality visualizations
+library(scRNAseq)  # Contains datasets and utilities for scRNA seq
+library(harmony) # Collect batch effects in single cell data
+library(clusterProfiler) 
+library(ReactomePA)
+library(org.Mm.eg.db)
+
+```
+
+```{r}
+# STEP 2
+# Load data
+
+sce <- ZilionisLungData('mouse')
+reducedDim(sce) <- NULL # remove any pre existing dimensionality reduction data to start fresh
+
+```
+
+```{r}
+# STEP 3
+# Convert single cell data to seurat object for analysis
+
+pbmcs <- as.Seurat(sce, counts = "counts", data = NULL) 
+```
+
+```{r}
+
+# STEP 4
+
+# Explore and Visualize the import data
+pbmcs
+head(pbmcs@meta.data) # view metadata associated with cells
+table(pbmcs$Tissue)
+table(pbmcs$Animal)
+cellCounts <- as.data.frame(table(pbmcs$Tissue))
+ggplot(cellCounts, aes(x = Var1, y = Freq, fill = Var1)) +
+  geom_bar(stat = "identity") +
+  labs(x = "Tissue Type", y = "Number of cells", title = "Cell Distribution by Tissue Type") +
+  theme_minimal()
+
+table(pbmcs$Tissue, pbmcs$Animal) # cross table to see how many cells come from animal - tissue combination
+
+```
+
+```{r}
+
+# STEP 5
+
+# Maintain only samples which are used 
+
+pbmcs = subset(pbmcs, Used == TRUE)
+head(pbmcs@meta.data)
+table(pbmcs$Tissue)
+table(pbmcs$Animal)
+table(pbmcs$Tissue, pbmcs$Animal)
+```
+
+```{r}
+
+# STEP 6
+
+# Quality control for cells
+
+VlnPlot(pbmcs, features = c("nFeature_originalexp", "nCount_originalexp", "Percent.counts.from.mitochondrial.genes" ))
+
+# Plot 1 nFeature_originalexp <- no og unique genes detected per cell (cells with few genes detected indicates poor quality), (higher values can cause donblets)
+# Plot 2 nCount_originalexp <- no of RNA counts detected per cell ()
+# Plot 3 Percent.counts.from.mitochondral.genes <- percentage of RNA counts from mitochondrial genes (high levels indicates poor quality)
+```
+
+```{r}
+
+# STEP 7
+
+# Filter cells based pn quality control metrics 
+
+pbmcs <- subset(pbmcs, subset = nFeature_originalexp > 200 & nFeature_originalexp < 2500 & Percent.counts.from.mitochondrial.genes < 10)
+
+# This retains cells with 
+# - More than 200 and less than 2500 genes
+# - less than 10% of RNA coding from mitochondrial genes
+head(pbmcs@meta.data)
+table(pbmcs$Tissue)
+table(pbmcs$Animal)
+table(pbmcs$Tissue, pbmcs$Animal)
+
+length(pbmcs$orig.ident) # display no of cells left in the dataset after qc filtering
+```
+
+```{r}
+# Step 8
+
+# Normalizing the data
+
+pbmcs <- NormalizeData(pbmcs, normalization.method = "LogNormalize") # Log Normalization of counts helps to adjust for differences in sequencing depth
+# pbmcs <- NormalizeData(pbmcs, normalization.method = "CLR", margin = 1) # Centered log-ratio transformation useful for data with compositional bias or when focusing 
+# pbmcs <- NormalizeData(pbmcs, normalization.method = "RC") # 
+# pbmcs <- SCTransform(pbmcs, vars.to.regress = c("percent.mt"), verbose = FALSE) # Variance stabilization transformation
+
+# library(preprocessCore)
+# Normalized_matrix <- normalize.quantiles(as.matrix(pbmcs@assays$RNA@data))
+
+
+```
+
+```{r}
+pbmcs <- FindVariableFeatures(pbmcs, selection.method = "vst", nfeatures = 2000) # Identify 2000 genes with highest variance
+```
+
+```{r}
+# View 20 highly variable genes 
+
+top22 <- head(VariableFeatures(pbmcs),22) # Get top 22 variable features for labeling
+plot1 <- VariableFeaturePlot(pbmcs) # Create a plot to visualize the variable features
+plot2 <- LabelPoints(plot = plot1, points = top22, repel = TRUE) # Label the top variable genes
+print(plot2) # Display the labeled plot
+```
+
+```{r}
+# Scale the data for downstreeam analysis
+
+pbmcs <- ScaleData(pbmcs, features = rownames(pbmcs)) # Scale the data for zero mean and unit variance for all genes
+```
+
+```{r}
+# Run PCA analysis on the highly variable Features o reduce dimensionality while preserving variance
+pbmcs <- RunPCA(pbmcs, features = VariableFeatures(object = pbmcs))
+ElbowPlot(pbmcs) # Create a elbow plot o visualuze how many principal component s capture significant variations
+```
+
+```{r}
+# Run UMAP for dimensionality reduction and visualization
+
+pbmcs <- RunUMAP(pbmcs, dims = 1:16) # Perform UMAP on first 16 principal components to visualize the ata in two dimensions
+```
+
+```{r}
+# Visualize clusters on UMAP space, grouping by animal and tissue
+
+DimPlot(pbmcs, group.by = "Animal", split.by = "Tissue") # Plot UMAP colored by Animal
+DimPlot(pbmcs, group.by = "Tissue") # PLot UMAP colored by Tissue to see clustering trends
+```
+
+```{r}
+# PLot a specific feature across the UMAP to see it's distribution 
+
+FeaturePlot(pbmcs, features = "nFeature_originalexp") # Visualize the distribution of the no of features detected on UMAP
+```
+
+```{r}
+pbmcs <- RunHarmony(pbmcs, group.by.vars = "Animal") # Apply harmony collection based on grouping variance
+DimPlot(pbmcs) # Plot UMAP after batch correction
+ElbowPlot(pbmcs) # Reevaluate no of PCs to use after harmony adjustment
+
+```
+
+```{r}
+# Cluster the cells using harmony -correction embeddings
+
+pbmcs <- FindNeighbors(pbmcs, dims = 1:16) # Find Neignoring cells based on PCA results
+pbmcs <- FindClusters(pbmcs, resolution = 0.4) # Cluster cells using louvian algorithm 
+
+pbmcs <- RunUMAP(pbmcs, dims = 1:16)
+
+DimPlot(pbmcs, reduction = "umap", label = "TRUE")
+
+```
+
+```{r}
+# Identify marker genes for ach cluster, which help characterize the clusters
+
+cluster_markers <- FindAllMarkers(pbmcs, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)
+```
+```{r}
+# Extract the top 10 markers for each cluster
+
+top_markers <- cluster_markers %>%group_by(cluster) %>% top_n(10, avg_log2FC)
+
+print(top_markers)
+
+# Create a heatmap for top cluster markers for visual assessment
+
+marker_genes <- top_markers$gene # Extract the gene names for heatmap
+# Generate a heatmap to visualize expression patterns 
+DoHeatmap(pbmcs, features = marker_genes) + ggtitle("Cluster Markers HeatMap")
+```
+
+```{r}
+# Step 19: Rename Clusters for easier interpretation based on known biology
+new.cluster.ids <- c("Neutrophils", "BCells", "Neutrophils", "TCells",
+                     "Mono_Macro_DC", "Neutrophils", "Neutrophils", "NKCells",
+                     "DC", "Mono_Macro_DC", "Mono_Macro_DC", "Mono_Macro_DC",
+                     "Basophils") # Assign meaningful names to clusters based on biological knowledge
+
+names(new.cluster.ids) <- levels(pbmcs) # Map new names to the corresponding cluster levels
+
+pbmcs <- RenameIdents(pbmcs, new.cluster.ids) # Rename the clusters in the Seurat object for clarity
+
+```
+
+```{r}
+# Visualize cluster by major cell type
+DimPlot(pbmcs, reduction = "umap", label = TRUE, group.by = "Major.cell.type") # Plot umap grouped by major cell types
+```
+```{r}
+# Step 20: Create a unique identifier for differential expression analysis
+# Concatenate cluster identity and tissue type to create unique identifiers for DE analysis
+pbmcs$DETest <- paste(Idents(pbmcs), pbmcs$Tissue, sep = "_")
+
+# Update identities in the Seurat object to reflect the new identifiers
+Idents(pbmcs) <- pbmcs$DETest
+
+```
+
+```{r}
+# Step 21: Identify differentially expressed genes between specific clusters
+# For example, comparing BCells from healthy vs. tumor samples
+de_genes <- FindMarkers(pbmcs, ident.2 = "BCells_healthy", ident.1 = "BCells_tumor",
+                        min.pct = 0.25, logfc.threshold = 0.25)  # Conduct differential expression analysis
+
+# View differentially expressed genes for interpretation and further analysis
+print(de_genes)  # Print the results of the differential expression analysis to examine significant genes
+
+```
+
+```{r}
+# Enrichment Analysis
+# Install required packages
+if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
+BiocManager::install(c("clusterProfiler", "ReactomePA", "org.Mm.eg.db"))
+
+# Load Libraries
+library(clusterProfiler)
+library(ReactomePA)
+library(org.Mm.eg.db)
+
+# Extract significant genes from de_genes
+significant_genes <- rownames(de_genes[de_genes$p_val_adj < 0.05 & abs(de_genes$avg_log2FC) > 0.25, ])
+
+# Perform GO enrichment analysis
+enrich_results <- enrichGO(
+  gene          = significant_genes,
+  OrgDb         = org.Mm.eg.db,
+  keyType       = "SYMBOL",
+  ont           = "BP",
+  pAdjustMethod = "BH",
+  pvalueCutoff  = 0.05,
+  qvalueCutoff  = 0.2
+)
+
+# Perform Reactome pathway enrichment analysis
+reactome_results <- enrichPathway(
+  gene         = significant_genes,
+  organism     = "mouse",
+  pvalueCutoff = 0.05
+)
+
+# Visualize enrichment results
+barplot(enrich_results, showCategory = 20, title = "GO Enrichment Results")
+# dotplot(reactome_results, showCategory = 20, title = "Reactome Pathway Results")
+
+```
