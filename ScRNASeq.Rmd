@@ -1,0 +1,676 @@
+---
+title: "scRNA-seq in oncogenomics and immunomics"
+output:
+  pdf_document: default
+  html_notebook: default
+---
+
+```{r, message=FALSE}
+# STEP 1
+# Load necessary packages
+
+library(Seurat)   # Procide functions for single cell RNA seq analysis
+library(dplyr)   # Used for data manipulation and cleaning
+library(ggplot2)  # For creating high quality visualizations
+library(scRNAseq)  # Contains datasets and utilities for scRNA seq
+library(harmony) # Collect batch effects in single cell data
+library(clusterProfiler)
+library(ReactomePA)
+library(org.Mm.eg.db)
+library(svglite)  # vector SVG output for all saved figures
+
+```
+
+```{r}
+# STEP 1b
+# Output directory for figures
+# A "Plots" folder is created next to this script (inside SingleCellAnalysis).
+# When knitting or running chunks, the working directory is the script's folder,
+# so this relative path resolves to .../SingleCellAnalysis/Plots.
+# Change `plots_dir` if you want a different location.
+
+set.seed(42)   # reproducible UMAP / clustering / doublet simulation
+
+plots_dir <- "Plots"
+dir.create(plots_dir, recursive = TRUE, showWarnings = FALSE)
+message("Figures will be saved to: ", normalizePath(plots_dir, mustWork = FALSE))
+
+# helper to save every plot the same way (works for any ggplot object)
+save_plot <- function(plot, filename, width = 14, height = 10, dpi = 300) {
+  filename <- sub("\\.png$", ".svg", filename)   # save as svg, used in the html report
+  ggplot2::ggsave(
+    filename = file.path(plots_dir, filename),
+    plot     = plot,
+    width    = width,
+    height   = height,
+    device   = svglite::svglite
+  )
+  message("Saved: ", file.path(plots_dir, filename))
+}
+```
+
+```{r}
+# STEP 2
+# Load data
+
+sce <- ZilionisLungData('mouse')
+reducedDim(sce) <- NULL # remove any pre existing dimensionality reduction data to start fresh
+
+```
+
+```{r}
+# STEP 3
+# Convert single cell data to seurat object for analysis
+
+pbmcs <- as.Seurat(sce, counts = "counts", data = NULL)
+```
+
+```{r}
+
+# STEP 4
+
+# Explore and Visualize the import data
+pbmcs
+head(pbmcs@meta.data) # view metadata associated with cells
+table(pbmcs$Tissue)
+table(pbmcs$Animal)
+cellCounts <- as.data.frame(table(pbmcs$Tissue))
+p_cellcounts <- ggplot(cellCounts, aes(x = Var1, y = Freq, fill = Var1)) +
+  geom_bar(stat = "identity") +
+  labs(x = "Tissue Type", y = "Number of cells", title = "Cell Distribution by Tissue Type") +
+  theme_minimal()
+print(p_cellcounts)
+save_plot(p_cellcounts, "01_cell_distribution_by_tissue.png", width = 8, height = 6)
+
+table(pbmcs$Tissue, pbmcs$Animal) # cross table to see how many cells come from animal - tissue combination
+
+```
+
+```{r}
+
+# STEP 5
+
+# Maintain only samples which are used
+
+pbmcs = subset(pbmcs, Used == TRUE)
+head(pbmcs@meta.data)
+table(pbmcs$Tissue)
+table(pbmcs$Animal)
+table(pbmcs$Tissue, pbmcs$Animal)
+```
+
+```{r}
+
+# STEP 6
+
+# Quality control for cells
+
+p_qc <- VlnPlot(pbmcs, features = c("nFeature_originalexp", "nCount_originalexp", "Percent.counts.from.mitochondrial.genes" ))
+print(p_qc)
+save_plot(p_qc, "02_QC_violin.png", width = 12, height = 6)
+
+# Plot 1 nFeature_originalexp <- no og unique genes detected per cell (cells with few genes detected indicates poor quality), (higher values can cause donblets)
+# Plot 2 nCount_originalexp <- no of RNA counts detected per cell ()
+# Plot 3 Percent.counts.from.mitochondral.genes <- percentage of RNA counts from mitochondrial genes (high levels indicates poor quality)
+```
+
+```{r}
+
+# STEP 7
+
+# Filter cells based pn quality control metrics
+
+pbmcs <- subset(pbmcs, subset = nFeature_originalexp > 200 & nFeature_originalexp < 2500 & Percent.counts.from.mitochondrial.genes < 10)
+
+# This retains cells with
+# - More than 200 and less than 2500 genes
+# - less than 10% of RNA coding from mitochondrial genes
+head(pbmcs@meta.data)
+table(pbmcs$Tissue)
+table(pbmcs$Animal)
+table(pbmcs$Tissue, pbmcs$Animal)
+
+length(pbmcs$orig.ident) # display no of cells left in the dataset after qc filtering
+
+# QC violin plot AFTER filtering, for before/after comparison
+p_qc_post <- VlnPlot(pbmcs, features = c("nFeature_originalexp", "nCount_originalexp", "Percent.counts.from.mitochondrial.genes"))
+print(p_qc_post)
+save_plot(p_qc_post, "03_QC_violin_postfilter.png", width = 12, height = 6)
+```
+
+```{r}
+# STEP 7b (QC RIGOR)
+# Doublet detection with scDblFinder
+# Removes artifactual "cells" that are really two cells captured in one droplet.
+# scDblFinder works on raw counts, so run it on the filtered object BEFORE normalization.
+
+if (!requireNamespace("scDblFinder", quietly = TRUE)) {
+  if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
+  BiocManager::install("scDblFinder")
+}
+library(scDblFinder)
+library(SingleCellExperiment)
+
+# Convert to SCE, run scDblFinder per sample (samples = Animal to respect batches)
+sce_db <- as.SingleCellExperiment(pbmcs, assay = "originalexp")
+sce_db <- scDblFinder(sce_db, samples = pbmcs$Animal)
+
+# Carry the calls back onto the Seurat object
+pbmcs$scDblFinder.class <- sce_db$scDblFinder.class
+pbmcs$scDblFinder.score <- sce_db$scDblFinder.score
+print(table(pbmcs$scDblFinder.class))
+
+# Visualize doublet score on QC metrics, then drop predicted doublets
+p_dbl <- VlnPlot(pbmcs, features = "scDblFinder.score", group.by = "Tissue")
+print(p_dbl)
+save_plot(p_dbl, "02b_doublet_score.png", width = 8, height = 6)
+
+pbmcs <- subset(pbmcs, subset = scDblFinder.class == "singlet")
+message("Cells remaining after doublet removal: ", ncol(pbmcs))
+```
+
+```{r}
+# Step 8
+
+# Normalizing the data
+
+pbmcs <- NormalizeData(pbmcs, normalization.method = "LogNormalize") # Log Normalization of counts helps to adjust for differences in sequencing depth
+# pbmcs <- NormalizeData(pbmcs, normalization.method = "CLR", margin = 1) # Centered log-ratio transformation useful for data with compositional bias or when focusing
+# pbmcs <- NormalizeData(pbmcs, normalization.method = "RC") #
+# pbmcs <- SCTransform(pbmcs, vars.to.regress = c("percent.mt"), verbose = FALSE) # Variance stabilization transformation
+
+# library(preprocessCore)
+# Normalized_matrix <- normalize.quantiles(as.matrix(pbmcs@assays$RNA@data))
+
+
+```
+
+```{r}
+pbmcs <- FindVariableFeatures(pbmcs, selection.method = "vst", nfeatures = 2000) # Identify 2000 genes with highest variance
+```
+
+```{r}
+# STEP 8b - cell cycle scoring
+# score S and G2M so proliferating cells don't cluster by cycle instead of cell type.
+# we regress the scores out in ScaleData below.
+
+# Seurat's cc.genes are human (UPPERCASE), convert to mouse Title case to match our genes
+to_mouse <- function(g) {
+  g <- tolower(g)
+  substr(g, 1, 1) <- toupper(substr(g, 1, 1))
+  g
+}
+s.genes   <- to_mouse(cc.genes$s.genes)
+g2m.genes <- to_mouse(cc.genes$g2m.genes)
+# keep only genes actually present in this object
+s.genes   <- s.genes[s.genes %in% rownames(pbmcs)]
+g2m.genes <- g2m.genes[g2m.genes %in% rownames(pbmcs)]
+
+pbmcs <- CellCycleScoring(pbmcs, s.features = s.genes,
+                          g2m.features = g2m.genes, set.ident = FALSE)
+print(table(pbmcs$Phase))
+```
+
+```{r}
+# View 20 highly variable genes
+
+top22 <- head(VariableFeatures(pbmcs),22) # Get top 22 variable features for labeling
+plot1 <- VariableFeaturePlot(pbmcs) # Create a plot to visualize the variable features
+plot2 <- LabelPoints(plot = plot1, points = top22, repel = TRUE) # Label the top variable genes
+print(plot2) # Display the labeled plot
+save_plot(plot2, "04_variable_features.png", width = 10, height = 7)
+```
+
+```{r}
+# Scale the data for downstreeam analysis
+
+pbmcs <- ScaleData(pbmcs, features = rownames(pbmcs),
+                   vars.to.regress = c("S.Score", "G2M.Score")) # Scale + regress out cell-cycle effects
+```
+
+```{r}
+# Run PCA analysis on the highly variable Features o reduce dimensionality while preserving variance
+pbmcs <- RunPCA(pbmcs, features = VariableFeatures(object = pbmcs))
+p_elbow <- ElbowPlot(pbmcs) # Create a elbow plot o visualuze how many principal component s capture significant variations
+print(p_elbow)
+save_plot(p_elbow, "05_PCA_elbow.png", width = 8, height = 6)
+
+# PCA scatter of the first two components
+p_pca <- DimPlot(pbmcs, reduction = "pca", group.by = "Tissue")
+print(p_pca)
+save_plot(p_pca, "06_PCA_dimplot.png", width = 8, height = 6)
+```
+
+```{r}
+# Run UMAP for dimensionality reduction and visualization
+
+pbmcs <- RunUMAP(pbmcs, dims = 1:16) # Perform UMAP on first 16 principal components to visualize the ata in two dimensions
+```
+
+```{r}
+# Visualize clusters on UMAP space, grouping by animal and tissue
+
+p_umap_animal <- DimPlot(pbmcs, group.by = "Animal", split.by = "Tissue") # Plot UMAP colored by Animal
+print(p_umap_animal)
+save_plot(p_umap_animal, "07_UMAP_by_animal_split_tissue.png", width = 14, height = 6)
+
+p_umap_tissue <- DimPlot(pbmcs, group.by = "Tissue") # PLot UMAP colored by Tissue to see clustering trends
+print(p_umap_tissue)
+save_plot(p_umap_tissue, "08_UMAP_by_tissue.png", width = 8, height = 6)
+```
+
+```{r}
+# PLot a specific feature across the UMAP to see it's distribution
+
+p_feature <- FeaturePlot(pbmcs, features = "nFeature_originalexp") # Visualize the distribution of the no of features detected on UMAP
+print(p_feature)
+save_plot(p_feature, "09_UMAP_featureplot_nFeature.png", width = 8, height = 6)
+```
+
+```{r}
+pbmcs <- RunHarmony(pbmcs, group.by.vars = "Animal") # Apply harmony collection based on grouping variance
+p_harmony <- DimPlot(pbmcs) # Plot UMAP after batch correction
+print(p_harmony)
+save_plot(p_harmony, "10_harmony_dimplot.png", width = 8, height = 6)
+
+p_elbow_harmony <- ElbowPlot(pbmcs) # Reevaluate no of PCs to use after harmony adjustment
+print(p_elbow_harmony)
+save_plot(p_elbow_harmony, "11_harmony_elbow.png", width = 8, height = 6)
+
+```
+
+```{r}
+# Cluster the cells using harmony -correction embeddings
+
+pbmcs <- FindNeighbors(pbmcs, dims = 1:16) # Find Neignoring cells based on PCA results
+pbmcs <- FindClusters(pbmcs, resolution = 0.4) # Cluster cells using louvian algorithm
+
+pbmcs <- RunUMAP(pbmcs, dims = 1:16)
+
+p_umap_clusters <- DimPlot(pbmcs, reduction = "umap", label = TRUE)
+print(p_umap_clusters)
+save_plot(p_umap_clusters, "12_UMAP_clusters.png", width = 8, height = 6)
+
+```
+
+```{r}
+# cell cycle diagnostics. checking the clusters are driven by cell type and not by
+# proliferation now that we've regressed the scores out.
+
+# phase on the umap, should be mixed within clusters not in their own islands
+p_cc_umap <- DimPlot(pbmcs, group.by = "Phase") + ggtitle("Cell-cycle phase on UMAP")
+print(p_cc_umap)
+save_plot(p_cc_umap, "18_cellcycle_UMAP_phase.png", width = 8, height = 6)
+
+# the two scores on the umap
+p_cc_feat <- FeaturePlot(pbmcs, features = c("S.Score", "G2M.Score"))
+print(p_cc_feat)
+save_plot(p_cc_feat, "19_cellcycle_scores_featureplot.png", width = 11, height = 5)
+
+# scores by phase, sanity check
+p_cc_ridge <- RidgePlot(pbmcs, features = c("S.Score", "G2M.Score"),
+                        group.by = "Phase", ncol = 2)
+print(p_cc_ridge)
+save_plot(p_cc_ridge, "20_cellcycle_scores_ridge.png", width = 11, height = 5)
+
+# phase proportions per cluster, no cluster should be all S/G2M
+cc_df <- as.data.frame(prop.table(table(Cluster = Idents(pbmcs),
+                                        Phase = pbmcs$Phase), margin = 1))
+p_cc_bar <- ggplot(cc_df, aes(Cluster, Freq, fill = Phase)) +
+  geom_col() +
+  labs(y = "Proportion of cells", title = "Cell-cycle phase composition per cluster") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+print(p_cc_bar)
+save_plot(p_cc_bar, "21_cellcycle_phase_by_cluster.png", width = 9, height = 6)
+```
+
+```{r}
+# Identify marker genes for ach cluster, which help characterize the clusters
+
+cluster_markers <- FindAllMarkers(pbmcs, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)
+```
+```{r}
+# Extract the top 10 markers for each cluster
+
+top_markers <- cluster_markers %>%group_by(cluster) %>% top_n(10, avg_log2FC)
+
+print(top_markers)
+
+# Create a heatmap for top cluster markers for visual assessment
+
+marker_genes <- top_markers$gene # Extract the gene names for heatmap
+# Generate a heatmap to visualize expression patterns
+p_heatmap <- DoHeatmap(pbmcs, features = marker_genes) + ggtitle("Cluster Markers HeatMap")
+print(p_heatmap)
+save_plot(p_heatmap, "13_cluster_markers_heatmap.png", width = 12, height = 10)
+```
+
+```{r}
+# Step 19: annotate the 12 clusters from their top markers, checked against the
+# canonical immune markers and the author's Major.cell.type column.
+# cluster -> markers -> label:
+#   0  Slc40a1/Slpi/Padi4        neutrophils (mature)
+#   1  Ms4a1/Cd79a/Cd79b/Cd19    B cells
+#   2  Cd3g/Lat/Tcf7/Thy1        T cells
+#   3  Ffar2/Siglecf/Clec4n      neutrophils (Siglecf+ TAN)
+#   4  Ace/F13a1/Clec4a1         monocytes
+#   5  Ncr1/Gzma/Klra4           NK cells
+#   6  Ngp/Ly6g/Retnlg/Mmp8      neutrophils (immature)
+#   7  Ccl3/Rab15/Mreg           neutrophils (Ccl3+)
+#   8  Krt79/Cidec/Gmpr          alveolar macrophages
+#   9  Cd209a/Clec10a/Ccl17      cDC2
+#   10 Fscn1/Ccl22               mregDC
+#   11 C1qa/C1qb/C1qc/Trem2/Mmp12  macrophages (C1q+Trem2+ TAM)
+# this mapping is positional, needs the same 12 clusters from the seeded run above.
+
+top5 <- cluster_markers %>% group_by(cluster) %>% slice_max(avg_log2FC, n = 5)
+print(top5, n = 60)
+# quick check against the author labels
+print(table(Cluster = Idents(pbmcs), Major = pbmcs$Major.cell.type))
+
+new.cluster.ids <- c(
+  "0"  = "Neutrophils (mature)",         "1"  = "B cells",
+  "2"  = "T cells",                      "3"  = "Neutrophils (Siglecf+ TAN)",
+  "4"  = "Monocytes",                    "5"  = "NK cells",
+  "6"  = "Neutrophils (immature)",       "7"  = "Neutrophils (Ccl3+)",
+  "8"  = "Alveolar macrophages",         "9"  = "cDC2",
+  "10" = "mregDC",                       "11" = "Macrophages (C1q+Trem2+ TAM)")
+
+pbmcs <- RenameIdents(pbmcs, new.cluster.ids)
+pbmcs$CellType <- Idents(pbmcs) # store labels for DE and CellChat
+
+# annotated umap
+p_umap_annotated <- DimPlot(pbmcs, reduction = "umap", label = TRUE, repel = TRUE) +
+  ggtitle("Manually annotated cell types (top-5 marker based)")
+print(p_umap_annotated)
+save_plot(p_umap_annotated, "22_UMAP_annotated_manual.png", width = 11, height = 7)
+
+# dotplot of canonical markers, a clean diagonal means the labels are specific
+canonical <- c("Cd79a","Ms4a1","Cd19", "Cd3g","Lat","Thy1", "Ncr1","Gzma","Klra4",
+               "Ace","F13a1","Clec4a1", "Krt79","Cidec", "C1qa","C1qb","Trem2","Mmp12",
+               "Cd209a","Clec10a","Ccl17", "Fscn1","Ccl22",
+               "S100a8","Ly6g","Retnlg","Ngp","Mmp8","Ccl3","Siglecf","Ffar2")
+canonical <- canonical[canonical %in% rownames(pbmcs)]
+p_dot <- DotPlot(pbmcs, features = canonical) + RotatedAxis() +
+  ggtitle("Canonical marker expression per annotated cell type")
+print(p_dot)
+save_plot(p_dot, "23_canonical_marker_dotplot.png", width = 15, height = 7)
+
+```
+
+```{r}
+# Visualize cluster by major cell type
+p_umap_major <- DimPlot(pbmcs, reduction = "umap", label = TRUE, group.by = "Major.cell.type") # Plot umap grouped by major cell types
+print(p_umap_major)
+save_plot(p_umap_major, "15_UMAP_major_cell_type.png", width = 9, height = 6)
+```
+```{r}
+# Step 20: Set the identity to TISSUE so DE compares tumor vs healthy across ALL cell types
+Idents(pbmcs) <- pbmcs$Tissue
+```
+
+```{r}
+# DE tumor vs healthy over all cells. ident.1 = tumor so +ve log2FC means up in tumor.
+# logfc.threshold = 0 so we keep every gene for the volcano
+de_genes <- FindMarkers(pbmcs, ident.1 = "tumor", ident.2 = "healthy",
+                        test.use = "wilcox", logfc.threshold = 0, min.pct = 0.1)
+de_genes$gene <- rownames(de_genes)
+write.csv(de_genes, file.path(plots_dir, "DE_all_tumor_vs_healthy_wilcox.csv"), row.names = FALSE)
+print(head(de_genes[order(de_genes$p_val_adj), ], 20))
+
+# volcano
+lfc_cut <- 0.25; p_cut <- 0.05
+de_genes$dir <- "ns"
+de_genes$dir[de_genes$p_val_adj < p_cut & de_genes$avg_log2FC >  lfc_cut] <- "Up in tumor"
+de_genes$dir[de_genes$p_val_adj < p_cut & de_genes$avg_log2FC < -lfc_cut] <- "Down in tumor"
+de_genes$neglog10 <- -log10(pmax(de_genes$p_val_adj, .Machine$double.xmin))
+lab <- head(dplyr::arrange(subset(de_genes, dir != "ns"), desc(neglog10)), 20)
+p_volcano <- ggplot(de_genes, aes(avg_log2FC, neglog10, color = dir)) +
+  geom_point(alpha = 0.7, size = 1.6) +
+  scale_color_manual(values = c("Up in tumor"="#c0392b","Down in tumor"="#2c6fbb","ns"="grey75"), name = NULL) +
+  geom_vline(xintercept = c(-lfc_cut, lfc_cut), linetype = "dashed", color = "grey50") +
+  geom_hline(yintercept = -log10(p_cut), linetype = "dashed", color = "grey50") +
+  ggrepel::geom_text_repel(data = lab, aes(label = gene), size = 3, max.overlaps = 30, show.legend = FALSE) +
+  labs(title = "All cell types: tumor (treatment) vs healthy (control) — Wilcoxon",
+       x = "avg log2 fold change  (+ = up in tumor)", y = "-log10 adjusted p") +
+  theme_bw(base_size = 13) + theme(legend.position = "top")
+print(p_volcano)
+save_plot(p_volcano, "17_volcano_all_tumor_vs_healthy.png", width = 9, height = 8)
+
+```
+
+```{r}
+# GO and Reactome enrichment, ORA and GSEA for both
+need <- c("clusterProfiler", "ReactomePA", "org.Mm.eg.db", "enrichplot")
+if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
+for (pkg in need) if (!requireNamespace(pkg, quietly = TRUE)) BiocManager::install(pkg)
+library(clusterProfiler); library(ReactomePA); library(org.Mm.eg.db); library(enrichplot)
+
+# Gene sets from the DE result above
+significant_genes <- de_genes$gene[de_genes$p_val_adj < 0.05 & abs(de_genes$avg_log2FC) > 0.25]
+geneList <- sort(setNames(de_genes$avg_log2FC, de_genes$gene), decreasing = TRUE)  # ranked list for gsea
+geneList <- geneList[!duplicated(names(geneList))]
+
+# shrink the y labels so the long pathway names stop overlapping
+tidy_enr <- function(p, ts = 10) p +
+  theme(axis.text.y = element_text(size = ts, lineheight = 0.9),
+        strip.text  = element_text(size = 11, face = "bold"), plot.title = element_text(size = 13))
+
+# GO biological process - ORA
+ego <- enrichGO(significant_genes, OrgDb = org.Mm.eg.db, keyType = "SYMBOL", ont = "BP",
+                pAdjustMethod = "BH", pvalueCutoff = 0.05, qvalueCutoff = 0.2)
+save_plot(tidy_enr(barplot(ego, showCategory = 15, label_format = 45) + ggtitle("GO BP over-representation")),
+          "16_GO_enrichment_barplot.png", 10, 10)
+save_plot(tidy_enr(dotplot(ego, showCategory = 15, label_format = 45) + ggtitle("GO BP over-representation (ORA)")),
+          "24_GO_ORA_dotplot.png", 10, 10)
+# GO GSEA
+gse_go <- gseGO(geneList, OrgDb = org.Mm.eg.db, keyType = "SYMBOL", ont = "BP",
+                pvalueCutoff = 0.05, eps = 0, verbose = FALSE)
+save_plot(tidy_enr(dotplot(gse_go, showCategory = 10, split = ".sign", label_format = 40) +
+            facet_grid(. ~ .sign) + ggtitle("GO BP GSEA (activated vs suppressed in tumor)")),
+          "25_GO_GSEA_dotplot.png", 13, 10)
+save_plot(tidy_enr(ridgeplot(gse_go, showCategory = 15, label_format = 45) +
+            ggtitle("GO BP GSEA — enrichment distributions")),
+          "26_GO_GSEA_ridge.png", 11, 10)
+
+# Reactome - it needs entrez ids so convert first with bitr
+sig_entrez <- bitr(significant_genes, "SYMBOL", "ENTREZID", org.Mm.eg.db)$ENTREZID
+gl_entrez <- de_genes %>% inner_join(bitr(de_genes$gene, "SYMBOL", "ENTREZID", org.Mm.eg.db),
+                                     by = c("gene" = "SYMBOL")) %>%
+  group_by(ENTREZID) %>% summarise(l = avg_log2FC[which.max(abs(avg_log2FC))]) %>%
+  { setNames(.$l, .$ENTREZID) } %>% sort(decreasing = TRUE)
+er <- enrichPathway(sig_entrez, organism = "mouse", pvalueCutoff = 0.05, readable = TRUE)
+save_plot(tidy_enr(dotplot(er, showCategory = 15, label_format = 50) + ggtitle("Reactome pathway ORA")),
+          "27_reactome_ORA_dotplot.png", 11, 10)
+gse_r <- setReadable(gsePathway(gl_entrez, organism = "mouse", pvalueCutoff = 0.05, eps = 0,
+                                verbose = FALSE), org.Mm.eg.db, "ENTREZID")
+save_plot(tidy_enr(dotplot(gse_r, showCategory = 10, split = ".sign", label_format = 45) +
+            facet_grid(. ~ .sign) + ggtitle("Reactome GSEA (activated vs suppressed in tumor)")),
+          "28_reactome_GSEA_dotplot.png", 13, 10)
+
+```
+
+<!-- CellChat ligand-receptor analysis below. uses pbmcs$CellType from the annotation step. -->
+
+```{r}
+# CellChat setup - ligand-receptor cell-cell communication
+# Build the CellChat object for tumor-microenvironment signaling. The plotting
+# chunks below produce the full CellChat visualization suite into a dedicated
+# subfolder so figures stay organized.
+
+if (!requireNamespace("CellChat", quietly = TRUE)) {
+  if (!requireNamespace("devtools", quietly = TRUE)) install.packages("devtools")
+  devtools::install_github("jinworks/CellChat")
+}
+library(CellChat)
+library(patchwork)
+
+# cellchat writes a lot of figures, keep them in their own folder
+cc_dir <- file.path(plots_dir, "cellchat")
+dir.create(cc_dir, recursive = TRUE, showWarnings = FALSE)
+
+# savers. base-graphics plots (circle, chord) get drawn straight into an svglite device.
+# width/height are in inches so divide the pixel sizes by res.
+cc_save_base <- function(filename, expr, width = 1600, height = 1200, res = 150) {
+  filename <- sub("\\.png$", ".svg", filename)
+  svglite::svglite(file.path(cc_dir, filename), width = width/res, height = height/res)
+  on.exit(dev.off(), add = TRUE)
+  tryCatch(force(expr), error = function(e) message("  [skip] ", filename, ": ", conditionMessage(e)))
+}
+# same thing but for ggplot / heatmap objects (print instead of eval)
+cc_save_obj <- function(filename, plot_obj, width = 1600, height = 1200, res = 150) {
+  filename <- sub("\\.png$", ".svg", filename)
+  svglite::svglite(file.path(cc_dir, filename), width = width/res, height = height/res)
+  on.exit(dev.off(), add = TRUE)
+  tryCatch(print(plot_obj), error = function(e) message("  [skip] ", filename, ": ", conditionMessage(e)))
+}
+safe_name <- function(x) gsub("[^A-Za-z0-9]+", "_", x)  # clean pathway names for filenames
+
+# build the cellchat object on the tumor cells
+tumor <- subset(pbmcs, subset = Tissue == "tumor")
+Idents(tumor) <- tumor$CellType
+
+data_input <- GetAssayData(tumor, assay = "originalexp", slot = "data") # log-normalized
+meta <- data.frame(labels = as.character(Idents(tumor)), row.names = colnames(tumor))
+
+cellchat <- createCellChat(object = data_input, meta = meta, group.by = "labels")
+cellchat@DB <- CellChatDB.mouse           # mouse ligand-receptor database
+cellchat <- subsetData(cellchat)
+cellchat <- identifyOverExpressedGenes(cellchat, do.fast = FALSE)  # presto optional; FALSE = standard Wilcoxon
+cellchat <- identifyOverExpressedInteractions(cellchat)
+cellchat <- computeCommunProb(cellchat)
+cellchat <- filterCommunication(cellchat, min.cells = 10)
+cellchat <- computeCommunProbPathway(cellchat)
+cellchat <- aggregateNet(cellchat)
+cellchat <- netAnalysis_computeCentrality(cellchat, slot.name = "netP")
+
+group_sizes  <- as.numeric(table(cellchat@idents))
+pathways.all <- cellchat@netP$pathways      # all significant signaling pathways
+message("Significant pathways found: ", paste(pathways.all, collapse = ", "))
+```
+
+```{r}
+# aggregated network. circle plots, left = number of interactions, right = strength
+cc_save_base("18_aggregate_circle_count_weight.png", {
+  par(mfrow = c(1, 2), xpd = TRUE)
+  netVisual_circle(cellchat@net$count,  vertex.weight = group_sizes,
+                   weight.scale = TRUE, label.edge = FALSE, title.name = "Number of interactions")
+  netVisual_circle(cellchat@net$weight, vertex.weight = group_sizes,
+                   weight.scale = TRUE, label.edge = FALSE, title.name = "Interaction strength")
+}, width = 2000, height = 1000)
+
+# one panel per source cell type
+cc_save_base("19_aggregate_circle_per_source.png", {
+  mat <- cellchat@net$weight
+  n   <- nrow(mat)
+  par(mfrow = c(ceiling(n / 3), 3), xpd = TRUE)
+  for (i in seq_len(n)) {
+    m <- matrix(0, n, n, dimnames = dimnames(mat))
+    m[i, ] <- mat[i, ]
+    netVisual_circle(m, vertex.weight = group_sizes, weight.scale = TRUE,
+                     edge.weight.max = max(mat), title.name = rownames(mat)[i])
+  }
+}, width = 1800, height = 600 * ceiling(nrow(cellchat@net$weight) / 3))
+
+# same info as heatmaps
+cc_save_obj("20_aggregate_heatmap_count.png",
+            netVisual_heatmap(cellchat, measure = "count", color.heatmap = "Reds"))
+cc_save_obj("21_aggregate_heatmap_weight.png",
+            netVisual_heatmap(cellchat, measure = "weight", color.heatmap = "Reds"))
+```
+
+```{r}
+# bubble plot of every L-R pair, source -> target
+cc_save_obj("22_bubble_all_LR.png",
+            netVisual_bubble(cellchat, remove.isolate = FALSE),
+            width = 2200, height = 2600)
+
+# chord diagram of the gene-level interactions
+cc_save_base("23_chord_gene_all.png",
+             netVisual_chord_gene(cellchat, lab.cex = 0.6, legend.pos.y = 30),
+             width = 1800, height = 1800)
+```
+
+```{r}
+# signaling roles - which cell types drive which pathways (outgoing / incoming)
+cc_save_obj("24_signalingRole_heatmap_outgoing.png",
+            netAnalysis_signalingRole_heatmap(cellchat, pattern = "outgoing"),
+            width = 1200, height = 1600)
+cc_save_obj("25_signalingRole_heatmap_incoming.png",
+            netAnalysis_signalingRole_heatmap(cellchat, pattern = "incoming"),
+            width = 1200, height = 1600)
+
+# senders vs receivers
+cc_save_obj("26_signalingRole_scatter.png",
+            netAnalysis_signalingRole_scatter(cellchat),
+            width = 1200, height = 1000)
+```
+
+```{r}
+# loop over each significant pathway and make the full set of plots for it
+for (pw in pathways.all) {
+  pwn <- safe_name(pw)
+
+  # circle
+  cc_save_base(paste0("pathway_", pwn, "_a_circle.png"),
+               netVisual_aggregate(cellchat, signaling = pw, layout = "circle"))
+
+  # chord
+  cc_save_base(paste0("pathway_", pwn, "_b_chord.png"),
+               netVisual_aggregate(cellchat, signaling = pw, layout = "chord"))
+
+  # heatmap
+  cc_save_obj(paste0("pathway_", pwn, "_c_heatmap.png"),
+              netVisual_heatmap(cellchat, signaling = pw, color.heatmap = "Reds"))
+
+  # contribution of each L-R pair
+  cc_save_obj(paste0("pathway_", pwn, "_d_LR_contribution.png"),
+              netAnalysis_contribution(cellchat, signaling = pw),
+              width = 1200, height = 800)
+
+  # signaling-role network
+  cc_save_base(paste0("pathway_", pwn, "_e_role_network.png"),
+               netAnalysis_signalingRole_network(cellchat, signaling = pw,
+                                                  width = 8, height = 2.5, font.size = 10),
+               width = 1600, height = 700)
+
+  # gene expression for the pathway genes
+  cc_save_obj(paste0("pathway_", pwn, "_f_gene_expression.png"),
+              plotGeneExpression(cellchat, signaling = pw),
+              width = 1400, height = 1200)
+}
+message("Per-pathway CellChat figures written to: ", cc_dir)
+```
+
+```{r}
+# NMF communication patterns - groups cell types into shared signaling programs.
+# wrapped in tryCatch since NMF can be fussy and this part is optional.
+tryCatch({
+  if (!requireNamespace("NMF", quietly = TRUE))        install.packages("NMF")
+  if (!requireNamespace("ggalluvial", quietly = TRUE)) install.packages("ggalluvial")
+  library(NMF); library(ggalluvial)
+
+  # outgoing (selectK helps pick k, using 3 here)
+  cc_save_obj("27_selectK_outgoing.png",
+              selectK(cellchat, pattern = "outgoing"), width = 1000, height = 800)
+  cellchat <- identifyCommunicationPatterns(cellchat, pattern = "outgoing", k = 3)
+  cc_save_obj("28_pattern_outgoing_river.png",
+              netAnalysis_river(cellchat, pattern = "outgoing"), width = 1600, height = 1000)
+  cc_save_obj("29_pattern_outgoing_dot.png",
+              netAnalysis_dot(cellchat, pattern = "outgoing"), width = 1400, height = 900)
+
+  # incoming
+  cc_save_obj("30_selectK_incoming.png",
+              selectK(cellchat, pattern = "incoming"), width = 1000, height = 800)
+  cellchat <- identifyCommunicationPatterns(cellchat, pattern = "incoming", k = 3)
+  cc_save_obj("31_pattern_incoming_river.png",
+              netAnalysis_river(cellchat, pattern = "incoming"), width = 1600, height = 1000)
+  cc_save_obj("32_pattern_incoming_dot.png",
+              netAnalysis_dot(cellchat, pattern = "incoming"), width = 1400, height = 900)
+}, error = function(e) message("Communication-pattern step skipped: ", conditionMessage(e)))
+
+# save the object so we can re-plot later without rerunning everything
+saveRDS(cellchat, file = file.path(cc_dir, "cellchat_object.rds"))
+message("All CellChat figures written to: ", cc_dir)
+```

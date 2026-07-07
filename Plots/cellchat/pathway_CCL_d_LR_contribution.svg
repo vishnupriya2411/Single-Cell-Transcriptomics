@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='576.00pt' height='384.00pt' viewBox='0 0 576.00 384.00'>
+<g class='svglite'>
+<defs>
+  <style type='text/css'><![CDATA[
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+    .svglite text {
+      white-space: pre;
+    }
+    .svglite g.glyphgroup path {
+      fill: inherit;
+      stroke: none;
+    }
+  ]]></style>
+</defs>
+<rect width='100%' height='100%' style='stroke: none; fill: #FFFFFF;'/>
+<defs>
+  <clipPath id='cpMC4wMHw1NzYuMDB8MC4wMHwzODQuMDA='>
+    <rect x='0.00' y='0.00' width='576.00' height='384.00' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpMC4wMHw1NzYuMDB8MC4wMHwzODQuMDA=)'>
+<rect x='0.00' y='-0.000000000000057' width='576.00' height='384.00' style='stroke-width: 1.07; stroke: #FFFFFF; fill: #FFFFFF;' />
+</g>
+<defs>
+  <clipPath id='cpNzIuNDZ8NTcwLjUyfDIwLjIzfDM2NS41OQ=='>
+    <rect x='72.46' y='20.23' width='498.06' height='345.36' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpNzIuNDZ8NTcwLjUyfDIwLjIzfDM2NS41OQ==)'>
+<rect x='72.46' y='20.23' width='498.06' height='345.36' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
+<rect x='95.10' y='28.69' width='452.78' height='23.70' style='stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;' />
+<rect x='95.10' y='62.55' width='203.64' height='23.70' style='stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;' />
+<rect x='95.10' y='96.41' width='107.22' height='23.70' style='stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;' />
+<rect x='95.10' y='130.27' width='90.61' height='23.70' style='stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;' />
+<rect x='95.10' y='164.13' width='35.29' height='23.70' style='stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;' />
+<rect x='95.10' y='197.98' width='0.00' height='23.70' style='stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;' />
+<rect x='95.10' y='231.84' width='0.00' height='23.70' style='stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;' />
+<rect x='95.10' y='265.70' width='0.00' height='23.70' style='stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;' />
+<rect x='95.10' y='299.56' width='0.00' height='23.70' style='stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;' />
+<rect x='95.10' y='333.42' width='0.00' height='23.70' style='stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;' />
+</g>
+<g clip-path='url(#cpMC4wMHw1NzYuMDB8MC4wMHwzODQuMDA=)'>
+<polyline points='72.46,365.59 72.46,20.23 ' style='stroke-width: 1.07; stroke-linecap: square;' />
+<text x='70.27' y='179.56' text-anchor='end' style='font-size: 10.00px; font-family: "Arial";' textLength='52.78px' lengthAdjust='spacingAndGlyphs'>Ccl9  - Ccr1</text>
+<text x='70.27' y='145.70' text-anchor='end' style='font-size: 10.00px; font-family: "Arial";' textLength='52.78px' lengthAdjust='spacingAndGlyphs'>Ccl6  - Ccr2</text>
+<text x='70.27' y='111.84' text-anchor='end' style='font-size: 10.00px; font-family: "Arial";' textLength='52.78px' lengthAdjust='spacingAndGlyphs'>Ccl3  - Ccr1</text>
+<text x='70.27' y='77.98' text-anchor='end' style='font-size: 10.00px; font-family: "Arial";' textLength='52.78px' lengthAdjust='spacingAndGlyphs'>Ccl5  - Ccr1</text>
+<text x='70.27' y='44.12' text-anchor='end' style='font-size: 10.00px; font-family: "Arial";' textLength='52.78px' lengthAdjust='spacingAndGlyphs'>Ccl6  - Ccr1</text>
+<polyline points='72.46,365.59 570.52,365.59 ' style='stroke-width: 1.07; stroke-linecap: square;' />
+<text x='321.49' y='376.20' text-anchor='middle' style='font-size: 11.00px; font-family: "Arial";' textLength='99.72px' lengthAdjust='spacingAndGlyphs'>Relative contribution</text>
+<text x='321.49' y='12.64' text-anchor='middle' style='font-size: 10.00px; font-family: "Arial";' textLength='127.86px' lengthAdjust='spacingAndGlyphs'>Contribution of each L-R pair</text>
+</g>
+</g>
+</svg>

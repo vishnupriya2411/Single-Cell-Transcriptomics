@@ -1,0 +1,12 @@
+# large regenerable objects (recreate by running the pipeline)
+*.rds
+
+# local R session / OS cruft
+.RData
+.Rhistory
+.DS_Store
+*.log
+
+# not for the repo
+Rplots.pdf
+PROJECT_NOTES.md

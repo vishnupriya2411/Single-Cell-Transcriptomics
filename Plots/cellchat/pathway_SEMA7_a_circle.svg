@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='768.00pt' height='576.00pt' viewBox='0 0 768.00 576.00'>
+<g class='svglite'>
+<defs>
+  <style type='text/css'><![CDATA[
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+    .svglite text {
+      white-space: pre;
+    }
+    .svglite g.glyphgroup path {
+      fill: inherit;
+      stroke: none;
+    }
+  ]]></style>
+</defs>
+<rect width='100%' height='100%' style='stroke: none; fill: #FFFFFF;'/>
+<defs>
+  <clipPath id='cpMC4wMHw3NjguMDB8MC4wMHw1NzYuMDA='>
+    <rect x='0.00' y='0.00' width='768.00' height='576.00' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpMC4wMHw3NjguMDB8MC4wMHw1NzYuMDA=)'>
+</g>
+<defs>
+  <clipPath id='cpNTkuMDR8NzM3Ljc2fDU5LjA0fDUwMi41Ng=='>
+    <rect x='59.04' y='59.04' width='678.72' height='443.52' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpNTkuMDR8NzM3Ljc2fDU5LjA0fDUwMi41Ng==)'>
+<polygon points='249.03,202.77 246.56,206.38 244.12,209.70 241.70,212.74 239.32,215.52 236.98,218.03 234.68,220.29 232.43,222.31 230.24,224.09 228.11,225.65 226.04,226.99 224.04,228.12 222.11,229.05 220.26,229.79 218.50,230.35 216.83,230.74 215.25,230.96 213.77,231.02 212.39,230.94 211.13,230.72 209.98,230.37 208.95,229.90 208.04,229.31 207.26,228.62 206.62,227.84 206.12,226.97 205.76,226.02 205.55,225.00 205.50,223.92 205.60,222.79 205.87,221.62 206.32,220.42 206.93,219.18 207.73,217.94 208.71,216.68 209.88,215.42 211.24,214.18 212.81,212.95 214.58,211.74 216.56,210.58 218.76,209.45 221.17,208.38 223.81,207.38 226.69,206.44 229.79,205.58 233.14,204.81 236.73,204.13 240.57,203.56 244.67,203.11 249.03,202.77 ' style='stroke-width: 6.23; stroke: #F781BF; stroke-opacity: 0.60;' />
+<line x1='246.40' y1='206.62' x2='249.03' y2='202.77' style='stroke-width: 6.23; stroke: #F781BF; stroke-opacity: 0.60;' />
+<polygon points='248.29,205.76 248.41,204.82 249.20,202.89 248.86,202.66 247.35,204.09 246.52,204.55 ' style='stroke-width: 6.23; stroke: #F781BF; stroke-opacity: 0.60; fill: #F781BF; fill-opacity: 0.60;' />
+<circle cx='562.67' cy='280.80' r='8.21' style='stroke-width: 0.75; stroke: #E41A1C; fill: #E41A1C;' />
+<circle cx='540.66' cy='198.67' r='8.21' style='stroke-width: 0.75; stroke: #377EB8; fill: #377EB8;' />
+<circle cx='480.53' cy='138.54' r='8.21' style='stroke-width: 0.75; stroke: #4DAF4A; fill: #4DAF4A;' />
+<circle cx='398.40' cy='116.53' r='8.21' style='stroke-width: 0.75; stroke: #984EA3; fill: #984EA3;' />
+<circle cx='316.27' cy='138.54' r='8.21' style='stroke-width: 0.75; stroke: #F29403; fill: #F29403;' />
+<circle cx='256.14' cy='198.67' r='8.21' style='stroke-width: 0.75; stroke: #F781BF; fill: #F781BF;' />
+<circle cx='234.13' cy='280.80' r='8.21' style='stroke-width: 0.75; stroke: #BC9DCC; fill: #BC9DCC;' />
+<circle cx='256.14' cy='362.93' r='8.21' style='stroke-width: 0.75; stroke: #A65628; fill: #A65628;' />
+<circle cx='316.27' cy='423.06' r='8.21' style='stroke-width: 0.75; stroke: #54B0E4; fill: #54B0E4;' />
+<circle cx='398.40' cy='445.07' r='8.21' style='stroke-width: 0.75; stroke: #222F75; fill: #222F75;' />
+<circle cx='480.53' cy='423.06' r='8.21' style='stroke-width: 0.75; stroke: #1B9E77; fill: #1B9E77;' />
+<circle cx='540.66' cy='362.93' r='8.21' style='stroke-width: 0.75; stroke: #B2DF8A; fill: #B2DF8A;' />
+</g>
+<g clip-path='url(#cpMC4wMHw3NjguMDB8MC4wMHw1NzYuMDA=)'>
+<text x='598.39' y='283.19' text-anchor='middle' style='font-size: 9.60px; font-family: "Helvetica";' textLength='95.36px' lengthAdjust='spacingAndGlyphs'>Alveolar macrophages</text>
+<text x='570.71' y='182.70' text-anchor='middle' style='font-size: 9.60px; font-family: "Helvetica";' textLength='28.25px' lengthAdjust='spacingAndGlyphs'>B cells</text>
+<text x='495.37' y='109.49' text-anchor='middle' style='font-size: 9.60px; font-family: "Helvetica";' textLength='23.97px' lengthAdjust='spacingAndGlyphs'>cDC2</text>
+<text x='393.32' y='83.64' text-anchor='middle' style='font-size: 9.60px; font-family: "Helvetica";' textLength='145.30px' lengthAdjust='spacingAndGlyphs'>Macrophages (C1q+Trem2+ TAM)</text>
+<text x='292.87' y='113.95' text-anchor='middle' style='font-size: 9.60px; font-family: "Helvetica";' textLength='46.36px' lengthAdjust='spacingAndGlyphs'>Monocytes</text>
+<text x='221.86' y='191.07' text-anchor='middle' style='font-size: 9.60px; font-family: "Helvetica";' textLength='35.67px' lengthAdjust='spacingAndGlyphs'>mregDC</text>
+<text x='199.85' y='293.40' text-anchor='middle' style='font-size: 9.60px; font-family: "Helvetica";' textLength='82.30px' lengthAdjust='spacingAndGlyphs'>Neutrophils (Ccl3+)</text>
+<text x='232.74' y='392.43' text-anchor='middle' style='font-size: 9.60px; font-family: "Helvetica";' textLength='97.45px' lengthAdjust='spacingAndGlyphs'>Neutrophils (immature)</text>
+<text x='311.18' y='460.92' text-anchor='middle' style='font-size: 9.60px; font-family: "Helvetica";' textLength='87.34px' lengthAdjust='spacingAndGlyphs'>Neutrophils (mature)</text>
+<text x='413.24' y='480.04' text-anchor='middle' style='font-size: 9.60px; font-family: "Helvetica";' textLength='112.89px' lengthAdjust='spacingAndGlyphs'>Neutrophils (Siglecf+ TAN)</text>
+<text x='510.59' y='445.72' text-anchor='middle' style='font-size: 9.60px; font-family: "Helvetica";' textLength='35.17px' lengthAdjust='spacingAndGlyphs'>NK cells</text>
+<text x='576.39' y='366.28' text-anchor='middle' style='font-size: 9.60px; font-family: "Helvetica";' textLength='27.53px' lengthAdjust='spacingAndGlyphs'>T cells</text>
+</g>
+<g clip-path='url(#cpNTkuMDR8NzM3Ljc2fDU5LjA0fDUwMi41Ng==)'>
+<text x='398.40' y='37.82' text-anchor='middle' style='font-size: 13.20px; font-family: "Arial";' textLength='202.97px' lengthAdjust='spacingAndGlyphs'>SEMA7 signaling pathway network</text>
+</g>
+</g>
+</svg>
